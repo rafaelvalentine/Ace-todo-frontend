@@ -9,5 +9,9 @@ export default {
     warning: '#c19e49',
     danger: '#f44336',
     header: '#131516',
-    subHeader: '#373d3f'
+    subHeader: '#373d3f',
+    leftColumn: '#f4f4f4',
+    rightColumn: '#f5f5f5',
+    defaultIcon: '#767678'
+
 }

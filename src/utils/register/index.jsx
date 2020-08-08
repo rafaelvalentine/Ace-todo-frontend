@@ -32,6 +32,7 @@ export default ({ email, onChange, username, password, loading, ...props }) => {
         name='password'
         value={password}
         onChange={onChange}
+        append='true'
         type='password'
       />
       <Button

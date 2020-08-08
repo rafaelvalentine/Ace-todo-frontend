@@ -137,3 +137,151 @@ span{
   color: ${props => props.theme.cardName};
 }
 `
+
+
+
+
+
+export const NotificationDropdown = styled.div`
+width: 160px;
+min-height:80px;
+padding: 8px;
+position: relative;
+background: ${props => props.theme.transparent};
+z-index: 5;
+`
+
+export const NotificationToggle = styled.p`
+  font-size: 15px;
+  margin:0;
+  text-transform: uppercase;
+  text-align: center;
+  i{
+    margin:0 5px;
+  }
+  &:hover{
+    color:${props => props.theme.warning};
+    cursor: pointer;
+  }
+`
+
+export const NotificationMenu = styled.div`
+width: 100%;
+max-height: 200px;
+overflow: auto;
+position: absolute;
+top: 30px;
+background: ${props => props.theme.white};
+box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.08);
+padding: 5px 0 10px;
+`
+export const NotificationOptions = styled.article`
+width: 100%;
+height: 64px;
+padding: 8px;
+cursor: pointer;
+transition: .3s;
+:hover{
+  box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.08);
+}
+img{
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+}
+p{
+  margin: 0;
+}
+p.title {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 16px;
+  color: ${props => props.theme.header};
+}
+p.content {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 10px;
+  line-height: 12px;
+  color: ${props => props.theme.subHeader};
+}
+span{
+  font-style: normal;
+  font-weight: bold;
+  font-size: 8px;
+  line-height: 11px;
+  color: ${props => props.theme.header};
+}
+`
+
+
+
+
+
+export const TaskDropdown = styled(NotificationDropdown)`
+background: ${props => props.theme.transparent};
+width: auto;
+min-height: 10px;
+height: 10px;
+z-index: 0;
+position: none;
+`
+
+export const TaskToggle = styled(NotificationToggle)`
+width: 100%;
+text-align: right;
+color: ${props => props.theme.defaultIcon} !important;
+z-index: 0;
+i{
+    cursor: pointer;
+    z-index: 0;
+    color: ${props => props.theme.defaultIcon} !important;
+    &:hover{
+      color: ${props => props.theme.primary} !important;
+    }
+  }
+`
+
+export const TaskMenu = styled(NotificationMenu)`
+width: 120px;
+min-height: 40px;
+box-shadow: 0px 8px 16px #DCDCDC;
+border-radius: 8px;
+overflow: hidden;
+top:0;
+right: 0;
+z-index: 0;
+@media only screen and ${device.tablet} {
+  width: 200px;
+
+}
+@media only screen and ${device.laptop} {
+}
+`
+
+export const TaskOptions = styled(NotificationOptions)`
+height: 32px;
+z-index: 6;
+&:hover{
+  box-shadow: 0px ;
+  background-color: ${props => props.theme.secondary};
+}
+.title{
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 19px;
+}
+&.edit{
+  i{
+    color: ${props => props.theme.defaultIcon} !important;
+  }
+}
+&.delete{
+  i,
+  p.title{
+    color: ${props => props.theme.danger} !important;
+  }
+}
+`

@@ -228,7 +228,7 @@ export const MainInput = styled.input`
     width: ${props => props.width};
     border: 1px solid #E0E7FF;
     border-radius: 2px;
-    height: 40px;
+    height:${props => props.height || '40px'};
     background: rgba(224, 231, 255, 0.2);
     padding: 12px 18px;
     font-style: normal;

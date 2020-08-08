@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { Helmet } from 'react-helmet'
-import { SelectedTeamResultCard } from '../../components/card'
-// import Dashboard from '../../components/dashboard'
+// import { SelectedTeamResultCard } from '../../components/card'
+import {LeftColumn } from '../../components/sidebar'
+import '../../themes/sass/pages/Dashboard.sass'
 
 export default class index extends Component {
 
@@ -21,9 +22,9 @@ componentDidMount(){
           <meta charSet='utf-8' />
           <title>Ace App || Dashboard Page</title>
         </Helmet>
-        <SelectedTeamResultCard 
-          {...this.props.Result}
-        />
+       <div id='page_dashboard'>
+        <LeftColumn />
+       </div>
       </>
     )
   }

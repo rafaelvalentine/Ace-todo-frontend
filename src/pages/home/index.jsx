@@ -33,7 +33,6 @@ this.props.handleFilterRequest(url)
     })
   }
   render () {
-    console.log('this.props.Results: ',  this.props.Results);
     return (
       <>
         {/*  this component handles setting the title and dynamically injecting head specific tags */}

@@ -13,7 +13,7 @@ export const Container = styled.div`
     line-height: 21px;
     cursor: pointer;
     color: ${props => props.color ? props.theme[props.color] || props.color : props.theme.white};
-    background-color: ${props => props.variant ? props.theme[props.variant] || props.variant : props.theme.primary};
+    background-color: ${props => props.backgroundColor ? props.theme[props.backgroundColor] || props.backgroundColor : props.theme.primary};
     transition: .3s;
     display:flex;
     justify-content:center;

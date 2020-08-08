@@ -4,7 +4,7 @@ import * as Type from '../../themes/style/typeface'
 import * as Form from '../../themes/style/Form'
 import { Logo } from '../picture'
 
-export const Main = ({ name, label, placeholder, type, value, onChange, ...props }) => {
+export const Main = ({ append, children, name, label, placeholder, type, value, onChange, onKeyUp, ...props }) => {
   const [_type, setType] = useState(null)
   useEffect(() => {
     if (type === 'password') {
@@ -27,11 +27,14 @@ export const Main = ({ name, label, placeholder, type, value, onChange, ...props
           placeholder={placeholder}
           value={value}
           onChange={onChange}
+          onKeyUp={onKeyUp}
           {...props} />
-        {type === 'password' && value.trim().length > 0
+        {append && value.trim().length > 0
           ? <InputGroup.Append>
-            {_type === 'password' ? <i className='mdi mdi-eye ml-2' onClick={() => setType('text')} /> : null}
-            {_type === 'text' ? <i className='mdi mdi-eye-off ml-2' onClick={() => setType('password')} /> : null}
+            { children || <span>
+              {_type === 'password' ? <i className='mdi mdi-eye ml-2' onClick={() => setType('text')} /> : null}
+              {_type === 'text' ? <i className='mdi mdi-eye-off ml-2' onClick={() => setType('password')} /> : null}
+            </span> }
           </InputGroup.Append>
           : null}
       </InputGroup>

@@ -53,7 +53,7 @@ export const handleFetchFilters = () => dispatch => {
  * @return {Promise<{result: AxiosResponse<Object>}>} user object from backend
  */
 export const handleFilterRequest = data => dispatch => {
-  return HTTP.serverApi()
+  return HTTP.baseApi()
     .post(`/carowners`,
       data
     )
@@ -79,7 +79,7 @@ export const handleFetchResults = () => dispatch => {
   const day = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()
   const year = date.getFullYear()
   const url = `/components/game/mlb/year_${year}/month_${month}/day_${day}/master_scoreboard.json`
-  return HTTP.mblResultApi()
+  return HTTP.baseApi()
     .get(url)
     .then(res => {
       let result = res.data

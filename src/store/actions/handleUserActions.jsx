@@ -25,7 +25,7 @@ import { HTTP } from '../../api/index'
  * @return {Promise<{result: AxiosResponse<Object>}>} user object from backend
  */
 export const handleUserLogin = data => dispatch => {
-  return HTTP.growthApi()
+  return HTTP.baseApi()
     .get(`/`)
     .then(res => {
       let result = res.data

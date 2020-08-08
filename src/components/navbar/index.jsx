@@ -39,6 +39,14 @@ export default () => {
               <span className='mdi mdi-fingerprint mr-1' />
               Login
             </NavLink>
+            <NavLink exact to='/dashboard' activeStyle={{
+              fontWeight: 'bold',
+              color: 'white'
+            }}
+            className=' _nav-link mr-3'>
+              <span className='mdi mdi-view-week-outline mr-1' />
+              Dashboard
+            </NavLink>
             <NavLink exact to='/more' activeStyle={{
               fontWeight: 'bold',
               color: 'white'
