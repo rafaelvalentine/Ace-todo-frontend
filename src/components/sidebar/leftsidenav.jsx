@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import Button from '../button'
 import useWindowDimensions from '../../tools/windowsize'
 import { size } from '../../utils/device'
-import { Tasks } from '../../utils/sidebar'
+import { Tasks, CreateTask } from '../../utils/sidebar'
 import { Wrapper, LeftColumn } from './styles'
 
 const Sidebar = ({ children, ...props }) => {
@@ -54,9 +54,9 @@ const Sidebar = ({ children, ...props }) => {
     <Wrapper>
       <LeftColumn ref={wrapperRef}
         id='leftColumn'
-        className={`leftColumn ${!activeClass ? 'leftColumn-exited align-items-center' : 'leftColumn-entered align-items-start pl-3'} d-flex flex-column justify-content-start pt-3`}>
+        className={`leftColumn ${!activeClass ? 'leftColumn-exited align-items-center' : 'leftColumn-entered align-items-start '} d-flex flex-column justify-content-start pt-3`}>
         <Button
-          className='hamburger'
+          className={`hamburger  ${activeClass ? 'ml-3' : ''}`}
           width='32px'
           height='32px'
           backgroundColor='transparent'
@@ -68,6 +68,7 @@ const Sidebar = ({ children, ...props }) => {
         </Button>
         <div className='w-100'>
           <Tasks tasks={props.tasks} />
+          <CreateTask openSidebar={()=> setActiveClass(true)} />
         </div>
 
       </LeftColumn>

@@ -151,7 +151,7 @@ export const TaskOptionsDropdown = ({ handleEdit, handleDelete, ...props }) => {
       </DropDown.TaskToggle>
 
       {dropDown
-        ? <DropDown.TaskMenu className='py-1'>
+        ? <DropDown.TaskMenu className={`py-1 ${props.last ? 'last' :''}`}>
           { TaskOptions }
         </DropDown.TaskMenu>
         : null }

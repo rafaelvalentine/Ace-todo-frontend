@@ -4,7 +4,7 @@ import * as Type from '../../themes/style/typeface'
 import * as Form from '../../themes/style/Form'
 import { Logo } from '../picture'
 
-export const Main = ({ append, children, name, label, placeholder, type, value, onChange, onKeyUp, ...props }) => {
+export const Main = ({ append, children, name, label, placeholder, type, value, onChange, onKeyDown, ...props }) => {
   const [_type, setType] = useState(null)
   useEffect(() => {
     if (type === 'password') {
@@ -27,7 +27,7 @@ export const Main = ({ append, children, name, label, placeholder, type, value, 
           placeholder={placeholder}
           value={value}
           onChange={onChange}
-          onKeyUp={onKeyUp}
+          onKeyDown={onKeyDown}
           {...props} />
         {append && value.trim().length > 0
           ? <InputGroup.Append>

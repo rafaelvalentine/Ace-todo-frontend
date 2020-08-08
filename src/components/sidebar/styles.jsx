@@ -45,12 +45,16 @@ z-index:5;
 }
 &.leftColumn-exited{
     width: 50px;
-    #task.task {
+  #task.task {
     justify-content: center !important;
     .task-title,
     .intereaction {
       display: none !important;
     }
+  }
+  .create-task{
+      border-top: 1px solid #eaeaea;
+      border-bottom: 1px solid #eaeaea;
   }
 }
 .hamburger{

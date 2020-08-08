@@ -252,16 +252,21 @@ overflow: hidden;
 top:0;
 right: 0;
 z-index: 0;
+&.last{
+  top: -0px;
+}
 @media only screen and ${device.tablet} {
   width: 200px;
-
+  &.last{
+  top: -8px;
+}
 }
 @media only screen and ${device.laptop} {
 }
 `
 
 export const TaskOptions = styled(NotificationOptions)`
-height: 32px;
+height: 24px;
 z-index: 6;
 &:hover{
   box-shadow: 0px ;
@@ -283,5 +288,10 @@ z-index: 6;
   p.title{
     color: ${props => props.theme.danger} !important;
   }
+}
+@media only screen and ${device.tablet} {
+  height: 28px;
+}
+@media only screen and ${device.laptop} {
 }
 `
