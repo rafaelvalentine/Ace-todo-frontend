@@ -76,7 +76,7 @@ const Task = props => {
   }
   return (
     <TaskWrapper className={`task d-flex justify-content-start align-items-center px-3  ${props.default ? 'default' : ''} ${activeClass ? 'active' : ''}`} id='task' ref={wrapperRef}>
-      {editMode ? <Main className={`${text.trim().length > 100 ? 'deactivate' : ''}`} height='34px' value={text} append
+      {editMode ? <Main autoFocus className={`${text.trim().length > 100 ? 'deactivate' : ''}`} height='34px' value={text} append
         onKeyDown={e => {
           if (text.trim().length > 100) return null
           if (e.keyCode === 13) {
@@ -168,7 +168,7 @@ export const CreateTask = props => {
       {editMode
         ? <div className='d-flex justify-content-center align-items-center'>
           <i className='mdi mdi-plus task-icon edit-mode' />
-          <Main className={`${text.trim().length > 100 ? 'deactivate' : ''}`} height='34px' value={text} placeholder='New List' onKeyDown={e => {
+          <Main autoFocus className={`${text.trim().length > 100 ? 'deactivate' : ''}`} height='34px' value={text} placeholder='New List' onKeyDown={e => {
             if (text.trim().length > 100) return null
             if (e.keyCode === 13) {
               handleSubmit()
@@ -182,9 +182,6 @@ export const CreateTask = props => {
         : <span className='d-flex justify-content-center align-items-center'>
           <i className='mdi mdi-plus task-icon' onClick={()=>{
             props.openSidebar()
-            // setTimeout(() => {
-            //   setEditMode(!editMode)
-            // }, 100);
             setEditMode(!editMode)
           }} />
           <p className='ml-2 mb-0 task-title text-truncate' onClick={() => setEditMode(!editMode)}>{ text || 'New List'}</p>

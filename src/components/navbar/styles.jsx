@@ -3,11 +3,11 @@ import styled from 'styled-components'
 export const Nav = styled.div`
 width: 100%;
 height: auto;
-background: ${props => props.theme.white}
+background-color: ${props => props.theme.primary};
 display: flex;
-justify-content: space-around;
+justify-content: flex-start;
 align-items: center;
-padding:0 ;
+padding:0;
 `
 export const SideNav = styled.div`
 display: flex;

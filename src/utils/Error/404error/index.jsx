@@ -8,7 +8,7 @@ const ErrorPage = props => {
   }
   const push = e => {
     e.preventDefault()
-    props.history.push('/home')
+    props.history.push('/')
   }
   return (
     <div id='error404'>

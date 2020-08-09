@@ -9,7 +9,7 @@ export default () => {
   return (
 
     <NavWrapper>
-      <Navbar variant='dark' expand='lg'>
+      <Navbar className='w-100' variant='dark' expand='lg'>
         <Navbar.Brand href='/'>Ace Todo App</Navbar.Brand>
         <Navbar.Toggle aria-controls='basic-navbar-nav' />
         <Navbar.Collapse id='basic-navbar-nav'>
@@ -46,6 +46,14 @@ export default () => {
             className=' _nav-link mr-3'>
               <span className='mdi mdi-view-week-outline mr-1' />
               Dashboard
+            </NavLink>
+            <NavLink exact to='/' activeStyle={{
+              fontWeight: 'bold',
+              color: 'white'
+            }}
+            className=' _nav-link mr-3'>
+              <span className='mdi mdi-logout mr-1' />
+              Logout
             </NavLink>
             <NavLink exact to='/more' activeStyle={{
               fontWeight: 'bold',

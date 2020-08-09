@@ -23,7 +23,7 @@ export const Wrapper = styled.div`
 }
 `
 export const LeftColumn = styled.section`
-height: 100vh;
+height: calc(100vh - 56px);
 position: absolute;
 top: 1px;
 bottom: 0;
@@ -31,7 +31,7 @@ background: ${props => props.theme.leftColumn};
 transition: .3s;
 z-index:5;
 &.leftColumn-entered{
-  width: 220px;
+  width: 230px;
   #task.task{
     justify-content: flex-start !important;
     .task-title,

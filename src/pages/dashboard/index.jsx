@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { Helmet } from 'react-helmet'
 // import { SelectedTeamResultCard } from '../../components/card'
-import {LeftColumn } from '../../components/sidebar'
+import { LeftColumn } from '../../components/sidebar'
+import Todo from '../../utils/todos'
 import '../../themes/sass/pages/Dashboard.sass'
 
 export default class index extends Component {
@@ -20,9 +21,11 @@ componentDidMount(){
         {/* this component handles setting the title and dynamically injecting head specific tags */}
         <Helmet>
           <meta charSet='utf-8' />
-          <title>Ace App || Dashboard Page</title>
+          <title>Dashboard Page - Ace App</title>
         </Helmet>
-       <div id='page_dashboard'>
+       <div id='page_dashboard' className='d-flex justify-content-start align-items-start'>
+        <LeftColumn />
+          <Todo />
         <LeftColumn />
        </div>
       </>

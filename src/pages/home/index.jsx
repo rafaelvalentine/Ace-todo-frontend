@@ -38,7 +38,7 @@ this.props.handleFilterRequest(url)
         {/*  this component handles setting the title and dynamically injecting head specific tags */}
         <Helmet>
           <meta charSet='utf-8' />
-          <title>Ace App || Home Page</title>
+          <title>Home Page - Ace App</title>
         </Helmet>
         <div id='_home'>
          

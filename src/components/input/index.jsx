@@ -9,9 +9,7 @@ export const Main = ({ append, children, name, label, placeholder, type, value, 
   useEffect(() => {
     if (type === 'password') {
       setType(type)
-      console.log(_type)
     }
-    console.log(type)
   }, [])
   return (
     <Form.MainLabelContainer {...props}>

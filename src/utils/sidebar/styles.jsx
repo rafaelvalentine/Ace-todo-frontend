@@ -90,6 +90,7 @@ div.intereaction {
 }
 &.default{
   i.default-icon{
+    color: ${props => props.theme.defaultIcon};
   }
 }
 &.active{
@@ -107,6 +108,12 @@ div.intereaction {
 }
 
 &.create-task{
+  i.task-icon{
+    cursor: pointer;
+  }
+  .task-title {
+    color: ${props => props.theme.primary};
+  }
   label{
     margin: 0;
     input {

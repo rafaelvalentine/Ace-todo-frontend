@@ -12,13 +12,13 @@ export const DeleteTaskModal = ({ loading, title, ...props }) => {
         width='100%'
         height='100%'
         backgroundColor='transparent'
-        padding='12px 32px 24px'
+        padding='12px 12px 24px'
         boxShadow='0px'
         flexWrap='nowrap'
-        justify='flex-start'
+        justify='center'
         align='flex-start'
       >
-        <Header className='title' margin='0'>
+        <Header className='title'>
           {`"${title || 'Task'}"`} will be permanently deleted.
         </Header>
         <SubHeader className='subtitle' margin='0' >

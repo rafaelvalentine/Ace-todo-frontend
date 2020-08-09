@@ -20,7 +20,7 @@ export default class index extends Component {
         {/* this component handles setting the title and dynamically injecting head specific tags */}
         <Helmet>
           <meta charSet='utf-8' />
-          <title>Ace Todo || Register Page</title>
+          <title>Register Page - Ace App</title>
         </Helmet>
         <div id='page_register' className='d-flex flex-column justify-content-center align-items-center pt-5'>
           <Header className='text-center'>Register Form</Header>
