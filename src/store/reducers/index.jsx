@@ -1,16 +1,14 @@
 import User from './UserReducer'
-import Carowners from './CarOwnersReducers'
 import Loading from './pageLoaderReducer'
-import Results from './ResultReducer'
-import SelectedResult from './SelectedResult'
+import List from './TodoListReducer'
+import Todo from './TodoReducer'  
 import { combineReducers } from 'redux'
 
 const rootReducers = combineReducers({
   User,
-  Carowners,
   Loading,
-  Results,
-  SelectedResult
+  List,
+  Todo
 })
 
 export default rootReducers

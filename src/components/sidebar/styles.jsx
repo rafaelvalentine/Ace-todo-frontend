@@ -2,6 +2,11 @@ import styled from 'styled-components'
 import { device } from '../../utils/device'
 
 export const Wrapper = styled.div`
+&.active{
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+}
 #overlay.overlay{
     position: absolute;
     top: 0;
@@ -13,8 +18,17 @@ export const Wrapper = styled.div`
       width: 100vw;
       height: 100vh;
     }
+    &.right{
+      z-index: 5 !important;
+    }
 }
 @media only screen and ${device.tablet} {
+  &.active{
+    z-index: 1;
+    position: relative;
+    width: auto;
+    height: auto;
+}
   #overlay.overlay{
     display: none;
   }
@@ -23,13 +37,13 @@ export const Wrapper = styled.div`
 }
 `
 export const LeftColumn = styled.section`
-height: calc(100vh - 56px);
+height: calc(100vh - 60px);
 position: absolute;
 top: 1px;
 bottom: 0;
 background: ${props => props.theme.leftColumn};
 transition: .3s;
-z-index:5;
+z-index: 5;
 &.leftColumn-entered{
   width: 230px;
   #task.task{
@@ -71,6 +85,32 @@ z-index:5;
   position: relative;
   &.leftColumn-entered{
     width: 290px;
+  }
+}
+@media only screen and ${device.laptop} {
+}
+`
+export const RightColumn = styled.section`
+height: calc(100vh - 60px);
+position: absolute;
+top: 1px;
+right: 0;
+bottom: 0;
+background: ${props => props.theme.rightColumn};
+transition: .3s;
+z-index: 7;
+&.rightColumn-entered{
+  width: calc(100vw - 48px);
+}
+&.rightColumn-exited{
+    display: none !important;
+    width: 0px;
+}
+@media only screen and ${device.tablet} {
+  position: relative;
+  &.rightColumn-entered{
+    display: flex !important;
+    width: 360px;
   }
 }
 @media only screen and ${device.laptop} {

@@ -4,26 +4,37 @@ import { HTTP } from '../../api/index'
 /**
  * types for reducer action
  */
-const { OWNERS_DATA, SET_RESULT } = type
+const { SET_ALL_TODOS, SET_TODO, SET_TODO_LIST } = type
 /**
  * @name handleSetOwners
  * @description redux action function passes payload and action for reducer
  * @param {Object} payload
  * @return {NUll} null
  */
-const handleSetOwners = payload => ({
-  type: OWNERS_DATA,
+const handleSetTodo = payload => ({
+  type: SET_TODO,
   payload
 })
 
 /**
- * @name handleSetResult
+ * @name handleSetAllTodos
  * @description redux action function passes payload and action for reducer
  * @param {Object} payload
  * @return {NUll} null
  */
-const handleSetResults = payload => ({
-  type: SET_RESULT,
+const handleSetAllTodos = payload => ({
+  type: SET_ALL_TODOS,
+  payload
+})
+
+/**
+ * @name handleSetTodoList
+ * @description redux action function passes payload and action for reducer
+ * @param {Object} payload
+ * @return {NUll} null
+ */
+const handleSetTodoList = payload => ({
+  type: SET_TODO_LIST,
   payload
 })
 
@@ -59,7 +70,7 @@ export const handleFilterRequest = data => dispatch => {
     )
     .then(res => {
       let result = res.data
-      dispatch(handleSetOwners(result.data))
+      // dispatch(handleSetOwners(result.data))
       return result
     })
     .catch(err => {
@@ -68,31 +79,11 @@ export const handleFilterRequest = data => dispatch => {
 }
 
 /**
- * @name handleFetchResults
- * @description  function handles MLB results
+ * @name handleSetSelectedTodo
+ * @description  function handle setting a selected todo
  * @param {Null} null
  * @return {Promise<{result: AxiosResponse<Object>}>} user object from backend
  */
-export const handleFetchResults = () => dispatch => {
-  const date = new Date()
-  const month = date.getMonth() < 10 ? `${date.getMonth() + 1 === 10 ? `${date.getMonth() + 1}` : `0${date.getMonth() + 1}`}` : date.getMonth() + 1
-  const day = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()
-  const year = date.getFullYear()
-  const url = `/components/game/mlb/year_${year}/month_${month}/day_${day}/master_scoreboard.json`
-  return HTTP.baseApi()
-    .get(url)
-    .then(res => {
-      let result = res.data
-      // if (result.data.games.game === null || result.data.games.game === undefined) {
-      //   dispatch(handleSetResults({ games: { game: [] } }))
-      // } else if (result.data && typeof result.data.games.game === 'object') {
-      //   dispatch(handleSetResults({ games: { game: [result.data.games.game] } }))
-      // } else {
-      //   dispatch(handleSetResults({ games: { game: result.data.games.game } }))
-      // }
-      return result
-    })
-    .catch(err => {
-      console.log(err)
-    })
+export const handleSetSelectedTodo = (todo) => dispatch => {
+  return dispatch(handleSetTodo(todo))
 }

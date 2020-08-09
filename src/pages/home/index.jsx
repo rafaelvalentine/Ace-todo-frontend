@@ -12,25 +12,25 @@ export default class index extends Component {
 
     ]
   }
-handleFilterRequest = url => {
-  this.props.handlePageLoader(true)
-this.props.handleFilterRequest(url)
-.then((result) => {
-  this.props.handlePageLoader(false)
-  this.props.history.push('/dashboard')
-  // console.log(result);
-}).catch((err) => {
-  console.log(err);
-});
+// handleFilterRequest = url => {
+//   this.props.handlePageLoader(true)
+// this.props.handleFilterRequest(url)
+// .then((result) => {
+//   this.props.handlePageLoader(false)
+//   this.props.history.push('/dashboard')
+//   // console.log(result);
+// }).catch((err) => {
+//   console.log(err);
+// });
 
-}
+// }
   componentDidMount (){
-    this.props.handlePageLoader(true)
-    this.props.handleFetchResults()
-    .then(results => {
-      this.props.handlePageLoader(false)
-      // console.log('results: ', results)
-    })
+    // this.props.handlePageLoader(true)
+    // this.props.handleFetchResults()
+    // .then(results => {
+    //   this.props.handlePageLoader(false)
+    //   // console.log('results: ', results)
+    // })
   }
   render () {
     return (

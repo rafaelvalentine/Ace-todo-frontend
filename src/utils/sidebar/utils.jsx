@@ -4,6 +4,7 @@ import { Card } from '../../components/card'
 import Modal from '../../components/modal'
 import { Header, SubHeader } from '../../themes/style/typeface'
 import '../../themes/sass/components/modals.sass'
+import { ExitDeleteWrapper } from './styles'
 
 export const DeleteTaskModal = ({ loading, title, ...props }) => {
   return (
@@ -47,5 +48,19 @@ export const DeleteTaskModal = ({ loading, title, ...props }) => {
         </div>
       </Card>
     </Modal>
+  )
+}
+
+export const ExitDateDelete = props => {
+  return (
+    <ExitDeleteWrapper className='d-flex justify-content-between align-items-center p-2'>
+      <i className='close mdi mdi-exit-to-app ' onClick={() => props.setActiveClass(false)} title='close' />
+      <span className='timestamp'>
+        {props.completed ? 'Completed' : 'Created'}
+        <bdi className='mx-1'>on</bdi>
+        {'' || 'Mon, Aug 10'}
+      </span>
+      <i className='trash mdi mdi-delete' title='delete'/>
+    </ExitDeleteWrapper>
   )
 }

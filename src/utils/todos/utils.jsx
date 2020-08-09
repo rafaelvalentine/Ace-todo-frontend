@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip'
 import ScrollArea from 'react-scrollbar'
 import { Main } from '../../components/input'
-import { TodoHeaderWrapper, TodosListWrapper, TodoWrapper, BackgroundLines, CheckedIcon, ImportantIcon } from './styles'
+import { handleSetSelectedTodo } from '../../store/actions'
 import { Header } from '../../themes/style/typeface'
+import { TodoHeaderWrapper, TodosListWrapper, TodoWrapper, BackgroundLines, CheckedIcon, ImportantIcon } from './styles'
 
 export const TodoHeader = props => {
   const [editMode, setEditMode] = useState(false)
@@ -87,8 +89,8 @@ export const TodoBody = props => {
         horizontal={false}
         vertical
       >
-        <Todos />
-        <CompletedTodos />
+        <Todos setActiveClass={value => props.setActiveClass(value)}/>
+        <CompletedTodos setActiveClass={value => props.setActiveClass(value)}/>
       </ScrollArea>
       <BackgroundLines className=' pt-5 ' />
     </TodosListWrapper>
@@ -101,7 +103,7 @@ export const Todos = props => {
     <div className='pt-3'>
       {todos.map(todo => {
         if (todo.completed) return null
-        return <Todo key={todo._id || Math.random()} {...todo} />
+        return <Todo setActiveClass={value => props.setActiveClass(value)} key={todo._id || Math.random()} {...todo} />
       })}
     </div>
   )
@@ -121,11 +123,10 @@ export const CompletedTodos = props => {
           </div>
           {show ? todos.map(todo => {
             if (!todo.completed) return null
-            return <Todo key={todo._id || Math.random()} {...todo} />
+            return <Todo setActiveClass={value => props.setActiveClass(value)} key={todo._id || Math.random()} {...todo} />
           }) : null }
         </div>
         : null}
-
     </>
 
   )
@@ -169,17 +170,24 @@ export const Todo = props => {
   useEffect(() => {
     setCompleted(props.completed)
     setIsImportant(props.isImportant)
-  }, [props])
+  }, [])
+  const dispatch = useDispatch()
   const handleSelection = (props) => {
     document.title = `${props.text || sample} - Ace App`
+    dispatch(handleSetSelectedTodo(props))
   }
   return (
-    <TodoWrapper className={`d-flex justify-content-between align-items-center p-2 ${activeClass ? 'active' : ''}`} ref={wrapperRef}>
+    <TodoWrapper
+      className={`d-flex justify-content-between align-items-center p-2 ${activeClass ? 'active' : ''}`}
+      ref={wrapperRef}>
       <CompletedCheckMark
         setCompleted={value => setCompleted(value)}
         completed={completed} />
-      <div className='details d-flex flex-column justify-content-start align-items-start px-2 py-1'>
-        <p className={`title ${completed ? 'text-strikethrough done' : ''} mb-0`} onClick={() => handleSelection(props)}>
+      <div className='details d-flex flex-column justify-content-start align-items-start px-2 py-1' onClick={() => {
+        handleSelection(props)
+        props.setActiveClass(true)
+      }}>
+        <p className={`title ${completed ? 'text-strikethrough done' : ''} mb-0`} onClick={() => {}}>
           { props.text || sample}
         </p>
         <div className='info d-flex justify-content-start align-items-start mt-1'>

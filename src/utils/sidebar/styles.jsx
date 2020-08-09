@@ -143,3 +143,72 @@ label{
 @media only screen and ${device.laptop} {
 }
 `
+
+export const TodoDetailHeadWrapper = styled.div`
+  width: 100%;
+  min-height: 55px;
+  background-color: ${props => props.theme.white};
+  .task-title {
+    font-weight: 400;
+    font-style:normal;
+    font-size: 14px;
+    line-height: 16px;
+    &:hover{
+      background-color: ${props => props.theme.secondary};
+    }
+  }
+  label{
+    margin: 0;
+    input {
+      width: 205px;
+      border: none;
+      border-bottom: 1px solid ${props => props.theme.info};
+      font-weight: 400;
+      font-style:normal;
+      font-size: 14px;
+      line-height: 16px;
+      background-color: ${props => props.theme.transparent};
+      &.deactivate{
+        border-bottom: 1px solid ${props => props.theme.danger} !important;
+      }
+      &::placeholder{
+        font-weight: 400;
+        font-style:normal;
+        font-size: 14px;
+        line-height: 16px;
+      }
+      &:focus{
+        outline: none;
+        // border-bottom: 1px solid ${props => props.theme.info};
+      }
+    }
+  }
+`
+
+export const ExitDeleteWrapper = styled.div`
+width: 90%;
+height: 40px;
+position: absolute;
+bottom: 10px;
+font-weight: 400;
+font-style:normal;
+font-size: 12px;
+line-height: 15px;
+color: #666666;
+background-color: ${props => props.theme.leftColumn};
+border-top: 1px solid #666666d0;
+i{
+  cursor: pointer;
+}
+.close{
+  font-size: 18px;
+  line-height: 21px;
+}
+.trash{
+  font-size: 18px;
+  line-height: 21px;
+&:hover{
+  color: ${props => props.theme.danger};
+  }
+}
+`

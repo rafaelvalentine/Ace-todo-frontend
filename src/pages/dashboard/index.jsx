@@ -1,19 +1,22 @@
 import React, { Component } from 'react'
 import { Helmet } from 'react-helmet'
 // import { SelectedTeamResultCard } from '../../components/card'
-import { LeftColumn } from '../../components/sidebar'
+import { LeftColumn, RightColumn } from '../../components/sidebar'
 import Todo from '../../utils/todos'
 import '../../themes/sass/pages/Dashboard.sass'
 
 export default class index extends Component {
 
   state = {
-
+    activeClass: false,
   }
 
 
 componentDidMount(){
 
+}
+setActiveClass = value =>{
+  this.setState({ activeClass: value })
 }
   render () {
     return (
@@ -25,8 +28,8 @@ componentDidMount(){
         </Helmet>
        <div id='page_dashboard' className='d-flex justify-content-start align-items-start'>
         <LeftColumn />
-          <Todo />
-        <LeftColumn />
+        <Todo setActiveClass={value => this.setActiveClass(value)}/>
+        <RightColumn activeClass={this.state.activeClass} setActiveClass={value => this.setActiveClass(value)} />
        </div>
       </>
     )

@@ -2,8 +2,9 @@ import React, { useState, useEffect, useRef } from 'react'
 import ScrollArea from 'react-scrollbar'
 import { TaskOptionsDropdown } from '../../components/dropdown'
 import { Main } from '../../components/input'
+import { Completed, CompletedCheckMark, ImportantCheckMark } from '../todos/utils'
 import { DeleteTaskModal } from './utils'
-import { TaskList, TaskWrapper } from './styles'
+import { TaskList, TaskWrapper, TodoDetailHeadWrapper } from './styles'
 
 export const Tasks = props => {
   const tasks = props.tasks.map((task, index) => {
@@ -180,7 +181,7 @@ export const CreateTask = props => {
           />
         </div>
         : <span className='d-flex justify-content-center align-items-center'>
-          <i className='mdi mdi-plus task-icon' onClick={()=>{
+          <i className='mdi mdi-plus task-icon' onClick={() => {
             props.openSidebar()
             setEditMode(!editMode)
           }} />
@@ -190,5 +191,85 @@ export const CreateTask = props => {
         <i className='mdi mdi-playlist-plus' title='add-group' />
       </div>
     </TaskWrapper>
+  )
+}
+
+export const TodoDetailsHead = props => {
+  const [completed, setCompleted] = useState(null)
+  const [isImportant, setIsImportant] = useState(false)
+  const [editMode, setEditMode] = useState(false)
+  const [text, setText] = useState('')
+  const handleSubmit = () => {
+
+  }
+  /**
+   * here i am using useState to toggle the modal
+   */
+  const [activeClass, setActiveClass] = useState(false)
+
+  /**
+ * Hook that alerts clicks outside of the passed ref
+ */
+  function useOutsideAlerter (ref) {
+  /**
+   * Alert if clicked on outside of element
+   */
+    function handleClickOutside (event) {
+      if (ref.current && !ref.current.contains(event.target)) {
+        if (editMode) {
+          return setEditMode(!editMode)
+        }
+      }
+    }
+
+    useEffect(() => {
+    // Bind the event listener
+      document.addEventListener('mousedown', handleClickOutside)
+      return () => {
+      // Unbind the event listener on clean up
+        document.removeEventListener('mousedown', handleClickOutside)
+      }
+    })
+  }
+  const wrapperRef = useRef(null)
+  useOutsideAlerter(wrapperRef)
+  useEffect(() => {
+    setText(props.text)
+    setCompleted(props.completed)
+    setIsImportant(props.isImportant)
+  }, [props])
+  let sample = 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur ullam at consequatur sit dolore fuga iure eligendi ipsam corrupti nihil. Voluptatum fuga porro distinctio facilis nisi provident, possimus modi doloremque.'
+  return (
+    <TodoDetailHeadWrapper className='d-flex justify-content-around align-items-center p-2' ref={wrapperRef}>
+      <CompletedCheckMark
+        setCompleted={value => setCompleted(value)}
+        completed={completed} />
+      {editMode
+        ? <div className='d-flex justify-content-start align-items-center w-100'>
+        
+          {/* <i className='mdi mdi-checkbox-blank-circle-outline task-icon edit-mode mr-2' onClick={() => {
+            setEditMode(!editMode)
+          }} /> */}
+          <Main autoFocus className={`${text.trim().length > 100 ? 'deactivate' : ''}`} height='34px' value={text} placeholder='New Task' onKeyDown={e => {
+            if (text.trim().length > 100) return null
+            if (e.keyCode === 13) {
+              handleSubmit()
+            }
+          }} onChange={e => {
+            e.persist()
+            setText(e.target.value)
+          }}
+          />
+          {/* text.trim().length > 0 && text.trim().length <= 100 ? <p className='add-task mb-0 ml-auto'>ADD </p> : null */}
+        </div>
+        : <span className='d-flex justify-content-start align-items-center w-100'>
+          {/* <i className='mdi mdi-plus task-icon mr-2' onClick={() => {
+            setEditMode(!editMode)
+          }} /> */}
+          <p className={`${completed ? 'text-strikethrough ' : ''} ml-2 mb-0 p-2 task-title text-break`} onClick={() => setEditMode(!editMode)} title={ text || 'New Task'}>{ text || 'New Task' }</p>
+        </span>}
+      <ImportantCheckMark isImportant={isImportant} setIsImportant={value => setIsImportant(value)} />
+    </TodoDetailHeadWrapper>
+
   )
 }

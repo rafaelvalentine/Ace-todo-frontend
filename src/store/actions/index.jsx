@@ -1,3 +1,3 @@
 export { handleUserLogin } from './handleUserActions'
-export { handleFetchFilters, handleFilterRequest, handleFetchResults } from './handleHomeActions'
+export { handleSetSelectedTodo } from './handleDashboardActions'
 export { handlePageLoader } from './handlePageLoaderAction'
