@@ -3,6 +3,9 @@ export { handleSetSelectedTodo,
   handleCreateTask,
   handleFetchTasks,
   handlePatchTask,
-  handleDeleteTask
+  handleDeleteTask,
+  handleSetSelectedTask,
+  handleFetchTodos,
+  handlePatchTodo
  } from './handleDashboardActions'
 export { handlePageLoader } from './handlePageLoaderAction'

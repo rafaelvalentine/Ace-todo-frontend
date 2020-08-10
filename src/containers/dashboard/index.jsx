@@ -1,6 +1,6 @@
 import Dashboard from '../../pages/dashboard'
 import { connect } from 'react-redux'
-import { handleFetchUserDetails, handleFetchTasks } from '../../store/actions'
+import { handleFetchUserDetails, handleFetchTasks, handleFetchTodos } from '../../store/actions'
 
 /**
  * here we handle passing redux to our component and export
@@ -11,7 +11,8 @@ import { handleFetchUserDetails, handleFetchTasks } from '../../store/actions'
 
 const mapDispatchToProps = dispatch => ({
   handleFetchUserDetails: () => dispatch(handleFetchUserDetails()),
-  handleFetchTasks: ()=> dispatch(handleFetchTasks())
+  handleFetchTasks: ()=> dispatch(handleFetchTasks()),
+  handleFetchTodos: id => dispatch(handleFetchTodos(id))
 })
 
 export default connect(null, mapDispatchToProps)(Dashboard)

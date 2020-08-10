@@ -1,5 +1,6 @@
 const initialState = {
-  data: []
+  data: [],
+  selected: null
 }
 
 export default (state = initialState, { type, payload }) => {
@@ -11,6 +12,11 @@ export default (state = initialState, { type, payload }) => {
         ]
       }
 
+    case 'SET_TASK_ID':
+      return { ...state,
+        selected: payload
+      }
+      
     default:
       return state
   }

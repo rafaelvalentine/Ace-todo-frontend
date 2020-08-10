@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import swal from 'sweetalert'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip'
 import ScrollArea from 'react-scrollbar'
 import { Main } from '../../components/input'
-import { handleSetSelectedTodo } from '../../store/actions'
+import { handleSetSelectedTodo, handlePatchTodo, handleFetchTodos } from '../../store/actions'
 import { Header } from '../../themes/style/typeface'
 import { TodoHeaderWrapper, TodosListWrapper, TodoWrapper, BackgroundLines, CheckedIcon, ImportantIcon } from './styles'
 
@@ -80,6 +81,7 @@ export const TodoHeader = props => {
 }
 
 export const TodoBody = props => {
+  const _Todos = useSelector(state => state.Todo.data)
   return (
     <TodosListWrapper className='mt-2 px-3'>
       <ScrollArea
@@ -89,8 +91,8 @@ export const TodoBody = props => {
         horizontal={false}
         vertical
       >
-        <Todos setActiveClass={value => props.setActiveClass(value)}/>
-        <CompletedTodos setActiveClass={value => props.setActiveClass(value)}/>
+        <Todos todos={_Todos} setActiveClass={value => props.setActiveClass(value)} />
+        <CompletedTodos todos={_Todos} setActiveClass={value => props.setActiveClass(value)} />
       </ScrollArea>
       <BackgroundLines className=' pt-5 ' />
     </TodosListWrapper>
@@ -113,9 +115,9 @@ export const CompletedTodos = props => {
   const todos = props.todos || [{ completed: false, text: 'Start Right Sidebar' }, { completed: true, text: 'Finish Todo Section' }]
   return (
     <>
-      {true
+      {props.todos.length > 0
         ? <div className='pt-3'>
-          <div className={`completed-toggle-wrapper d-flex justify-content-start align-items-center ${show ? '' : 'mb-3'} `} onClick={()=> setShow(!show)}>
+          <div className={`completed-toggle-wrapper d-flex justify-content-start align-items-center ${show ? '' : 'mb-3'} `} onClick={() => setShow(!show)}>
             <i className={`mdi mdi-chevron-down toggle-arrow ${show ? '' : 'toggle'} mr-2`} />
             <Header className='toggle-text' margin='0'>
               Completed
@@ -170,18 +172,50 @@ export const Todo = props => {
   useEffect(() => {
     setCompleted(props.completed)
     setIsImportant(props.isImportant)
-  }, [])
+  }, [props])
   const dispatch = useDispatch()
   const handleSelection = (props) => {
     document.title = `${props.text || sample} - Ace App`
     dispatch(handleSetSelectedTodo(props))
   }
+
+  const handleCompleted = value => {
+    dispatch(handlePatchTodo({ completed: value, isImportant, text: props.text, id: props._id }))
+      .then(result => {
+        if (result.status !== 200) {
+          swal('', `couldn't complete update ${props.text}`, '')
+          return
+        }
+
+        dispatch(handleFetchTodos(props.taskId))
+          .then(() => {
+            setCompleted(value)
+            dispatch(handleSetSelectedTodo(result.data))
+          })
+      })
+  }
+  const handleIsImportant = value => {
+    dispatch(handlePatchTodo({ isImportant: value, completed, text: props.text, id: props._id }))
+      .then(result => {
+        if (result.status !== 200) {
+          swal('', `couldn't complete update ${props.text}`, '')
+          return
+        }
+
+        dispatch(handleFetchTodos(props.taskId))
+          .then(() => {
+            setIsImportant(value)
+            dispatch(handleSetSelectedTodo(result.data))
+          })
+      })
+  }
+  // handlePatchTodo
   return (
     <TodoWrapper
       className={`d-flex justify-content-between align-items-center p-2 ${activeClass ? 'active' : ''}`}
       ref={wrapperRef}>
       <CompletedCheckMark
-        setCompleted={value => setCompleted(value)}
+        setCompleted={handleCompleted}
         completed={completed} />
       <div className='details d-flex flex-column justify-content-start align-items-start px-2 py-1' onClick={() => {
         handleSelection(props)
@@ -202,7 +236,7 @@ export const Todo = props => {
           </span>
         </div>
       </div>
-      <ImportantCheckMark isImportant={isImportant} setIsImportant={value => setIsImportant(value)} />
+      <ImportantCheckMark isImportant={isImportant} setIsImportant={handleIsImportant} />
     </TodoWrapper>
   )
 }

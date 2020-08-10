@@ -3,7 +3,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import ScrollArea from 'react-scrollbar'
 import { TaskOptionsDropdown } from '../../components/dropdown'
 import { Main } from '../../components/input'
-import { handleFetchTasks, handleCreateTask, handlePatchTask, handleDeleteTask } from '../../store/actions'
+import {
+  handleFetchTasks,
+  handleCreateTask,
+  handlePatchTask,
+  handleDeleteTask,
+  handleSetSelectedTask,
+  handleFetchTodos
+ } from '../../store/actions'
 import { ResolveAll } from '../../tools/Helpers/HTTP'
 import { Completed, CompletedCheckMark, ImportantCheckMark } from '../todos/utils'
 import { DeleteTaskModal } from './utils'
@@ -78,7 +85,9 @@ const Task = props => {
   useEffect(() => {
     setText(props.title)
   }, [props.title])
-
+  useEffect(() => {
+   if(sessionStorage.getItem('selectedTask') === props._id) setActiveClass(true)
+  }, [])
   const handleSubmit = () => {
     setLoading(true)
     dispatch(handlePatchTask({ id: props._id, title: text }))
@@ -109,7 +118,18 @@ const Task = props => {
         ResolveAll([dispatch(handleFetchTasks())], result.message)
       })
   }
-
+  const handleSelected =()=>{
+    dispatch(handleFetchTodos(props._id))
+    .then(result => {
+      if (result.status !== 200) {
+        swal('', result.errMessage, '')
+        return
+      }
+      sessionStorage.setItem('selectedTask', props._id)
+      dispatch(handleSetSelectedTask(props._id))
+    })
+    
+  }
   return (
     <TaskWrapper className={`task d-flex justify-content-start align-items-center px-3 cursor-pointer ${props.default ? 'default' : ''} ${activeClass ? 'active' : ''}`} id='task' ref={wrapperRef}>
       {editMode ? <Main autoFocus className={`${text.trim().length > 100 ? 'deactivate' : ''}`} height='34px' value={text} disabled={loading} append
@@ -131,7 +151,7 @@ const Task = props => {
           }} />
           <i className='close mdi mdi-close text-danger' onClick={() => setEditMode(!editMode)} />
         </div>
-      </Main> : <span className='d-flex justify-content-center align-items-center'>
+      </Main> : <span className='d-flex justify-content-center align-items-center' onClick={handleSelected}>
         <i className={`${props.icon || 'mdi mdi-format-list-checks'} default-icon task-icon`} />
         <p className='ml-2 mb-0 task-title text-truncate'>{text}</p>
       </span>}

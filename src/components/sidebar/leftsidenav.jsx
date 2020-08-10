@@ -8,6 +8,7 @@ import { Wrapper, LeftColumn } from './styles'
 
 const Sidebar = ({ children, ...props }) => {
   const List = useSelector(state => state.List.data)
+  const User = useSelector(state => state.User.data)
   /**
    * here i am using useState to toggle the dropdown
    */
@@ -84,51 +85,10 @@ Sidebar.defaultProps = {
   tasks: [
     {
       _id: Math.random(),
-      icon: '',
+      icon: 'mdi mdi-weather-sunny',
       title: 'My Day',
       default: true,
       completed: 0
-    },
-    {
-      _id: Math.random(),
-      icon: '',
-      title: 'My Project',
-      completed: 3
-    },
-    {
-      _id: Math.random(),
-      icon: '',
-      title: 'lorem ipsum los deo das vintos',
-      completed: 0
-    },
-    {
-      _id: Math.random(),
-      icon: '',
-      title: 'My Project',
-      completed: 3
-    },
-    {
-      _id: Math.random(),
-      icon: '',
-      title: 'My Project',
-      completed: 3
-    }, {
-      _id: Math.random(),
-      icon: '',
-      title: 'My Project',
-      completed: 3
-    },
-    {
-      _id: Math.random(),
-      icon: '',
-      title: 'My Project',
-      completed: 3
-    },
-    {
-      _id: Math.random(),
-      icon: '',
-      title: 'My Project',
-      completed: 3
     }
   ]
 }

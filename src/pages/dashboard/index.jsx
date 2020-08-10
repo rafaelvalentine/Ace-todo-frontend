@@ -14,13 +14,13 @@ export default class index extends Component {
 
 
 componentDidMount(){
-  const { history, handleFetchTasks, handleFetchUserDetails  } = this.props
+  const { history, handleFetchTasks, handleFetchUserDetails, handleFetchTodos  } = this.props
   if (!sessionStorage.getItem('_id') && !sessionStorage.getItem('token')) {
     history.push('/')
     return
   }
 
-  ResolveAll([handleFetchTasks()], null, handleFetchUserDetails())
+  ResolveAll([handleFetchTasks(), handleFetchTodos(sessionStorage.getItem('selectedTask') )], null, handleFetchUserDetails())
   .then(res=>{
       if(res.status !==200){
         this.setState({loading: false}, ()=> history.push('/'))
