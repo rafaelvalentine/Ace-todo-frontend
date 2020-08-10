@@ -14,7 +14,7 @@ export default (() => {
             token = sessionStorage.getItem('token')
         }
         if (process.env.NODE_ENV && process.env.NODE_ENV === 'production') {
-            baseURL = 'https://ace-todo-node-api.herokuapp.com'
+            baseURL = 'https://ace-todo-node-api.herokuapp.com/api/v1'
         }
         return axios.create({
             baseURL,
