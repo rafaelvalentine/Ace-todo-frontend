@@ -3,16 +3,13 @@ import { useDispatch, useSelector } from 'react-redux'
 // import Button from '../button'
 import useWindowDimensions from '../../tools/windowsize'
 import { size } from '../../utils/device'
-import { Tasks, CreateTask, TodoDetailsHead } from '../../utils/sidebar'
+import { TodoDetailsHead } from '../../utils/sidebar'
 import { ExitDateDelete } from '../../utils/sidebar/utils'
 import { Wrapper, RightColumn } from './styles'
 
 const Sidebar = ({ activeClass, setActiveClass, ...props }) => {
   const { width } = useWindowDimensions()
   const Todo = useSelector(state => state.Todo)
-  useEffect(() => {
-    console.log('todo: ', Todo)
-  }, [Todo])
   return (
 
   // {/** <!--  BEGIN SIDEBAR  --> */}

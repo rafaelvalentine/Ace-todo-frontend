@@ -8,6 +8,7 @@ import Loader from './containers/loader'
 import './themes/sass/app.sass'
 
 export default () => {
+ 
   return (
     <div id='App'>
       <Loader />

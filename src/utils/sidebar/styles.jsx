@@ -9,6 +9,7 @@ export const TaskList = styled.ul`
 list-style-type: none;
 width: 100%;
 min-height: 75px;
+height:240px;
 max-height:240px;
 overflow-y: auto;
 padding:0;

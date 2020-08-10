@@ -1,6 +1,6 @@
 import Register from '../../pages/register'
 import { connect } from 'react-redux'
-
+import { handleUserRegister } from '../../store/actions'
 
 /**
  * here we handle passing redux to our component and export
@@ -9,8 +9,8 @@ import { connect } from 'react-redux'
 
 // })
 
-// const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = dispatch => ({
+  handleUserRegister: data => dispatch(handleUserRegister(data))
+})
 
-// })
-
-export default connect(null, null)(Register)
+export default connect(null, mapDispatchToProps)(Register)

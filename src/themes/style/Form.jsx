@@ -285,6 +285,9 @@ export const MainLabelContainer = styled.label`
     display: block;
     margin-top: ${props => props.marTop ? props.marTop : '24px'};
     margin: ${props => props.MainLabelContainerMargin };
+    i {
+     cursor: pointer !important; 
+    }
   
 `
 export const MainLabelContainerAlt = styled.div`

@@ -30,8 +30,8 @@ export const Main = ({ append, children, name, label, placeholder, type, value, 
         {append && value.trim().length > 0
           ? <InputGroup.Append>
             { children || <span>
-              {_type === 'password' ? <i className='mdi mdi-eye ml-2' onClick={() => setType('text')} /> : null}
-              {_type === 'text' ? <i className='mdi mdi-eye-off ml-2' onClick={() => setType('password')} /> : null}
+              {_type === 'password' ? <i className='mdi mdi-eye ml-2 cursor-pointer' onClick={() => setType('text')} /> : null}
+              {_type === 'text' ? <i className='mdi mdi-eye-off ml-2 cursor-pointer' onClick={() => setType('password')} /> : null}
             </span> }
           </InputGroup.Append>
           : null}

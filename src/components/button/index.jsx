@@ -2,9 +2,9 @@ import React from 'react'
 import Spinner from 'react-bootstrap/Spinner'
 import * as ButtonStyle from './styles'
 
-const Button = ({ animation, children, content, loading, message, onClick, size, variant, ...props }) => {
+const Button = ({ animation, children, content, loading, message, onClick, size, variant, disabled, ...props }) => {
   return (
-    <ButtonStyle.Container disabled={loading} onClick={onClick} {...props}>
+    <ButtonStyle.Container disabled={disabled} onClick={onClick} {...props}>
       { loading
         ? <span>
           <Spinner

@@ -1,10 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import ScrollArea from 'react-scrollbar'
 import { TaskOptionsDropdown } from '../../components/dropdown'
 import { Main } from '../../components/input'
+import { handleFetchTasks, handleCreateTask, handlePatchTask, handleDeleteTask } from '../../store/actions'
+import { ResolveAll } from '../../tools/Helpers/HTTP'
 import { Completed, CompletedCheckMark, ImportantCheckMark } from '../todos/utils'
 import { DeleteTaskModal } from './utils'
 import { TaskList, TaskWrapper, TodoDetailHeadWrapper } from './styles'
+import swal from 'sweetalert'
 
 export const Tasks = props => {
   const tasks = props.tasks.map((task, index) => {
@@ -31,6 +35,8 @@ export const Tasks = props => {
   )
 }
 const Task = props => {
+  const dispatch = useDispatch()
+
   const [editMode, setEditMode] = useState(false)
   const [text, setText] = useState('')
   const [activeClass, setActiveClass] = useState(false)
@@ -72,12 +78,41 @@ const Task = props => {
   useEffect(() => {
     setText(props.title)
   }, [props.title])
-  const handleSubmit = () => {
 
+  const handleSubmit = () => {
+    setLoading(true)
+    dispatch(handlePatchTask({ id: props._id, title: text }))
+      .then(result => {
+        if (result.status !== 200) {
+          setLoading(false)
+          swal('', `${result.errMessage || 'Error occurred'}`, '')
+          return
+        }
+        setLoading(false)
+        ResolveAll([dispatch(handleFetchTasks())])
+          .then(result => {
+            setEditMode(false)
+          })
+      })
   }
+
+  const handleDelete = () => {
+    dispatch(handleDeleteTask(props._id))
+      .then(result => {
+        if (result.status !== 200) {
+          setLoading(false)
+          swal('', `${result.errMessage || 'Error occurred'}`, '')
+          return
+        }
+        setLoading(false)
+        setShowModal(false)
+        ResolveAll([dispatch(handleFetchTasks())], result.message)
+      })
+  }
+
   return (
-    <TaskWrapper className={`task d-flex justify-content-start align-items-center px-3  ${props.default ? 'default' : ''} ${activeClass ? 'active' : ''}`} id='task' ref={wrapperRef}>
-      {editMode ? <Main autoFocus className={`${text.trim().length > 100 ? 'deactivate' : ''}`} height='34px' value={text} append
+    <TaskWrapper className={`task d-flex justify-content-start align-items-center px-3 cursor-pointer ${props.default ? 'default' : ''} ${activeClass ? 'active' : ''}`} id='task' ref={wrapperRef}>
+      {editMode ? <Main autoFocus className={`${text.trim().length > 100 ? 'deactivate' : ''}`} height='34px' value={text} disabled={loading} append
         onKeyDown={e => {
           if (text.trim().length > 100) return null
           if (e.keyCode === 13) {
@@ -90,14 +125,15 @@ const Task = props => {
         }}
       >
         <div className='d-flex justify-content-around align-items-center'>
-          <i className='confirm mdi mdi-check text-success' onClick={() => {
+          <i className='confirm mdi mdi-check text-success' disabled={loading} onClick={() => {
             if (text.trim().length > 100) return null
+            handleSubmit()
           }} />
           <i className='close mdi mdi-close text-danger' onClick={() => setEditMode(!editMode)} />
         </div>
       </Main> : <span className='d-flex justify-content-center align-items-center'>
         <i className={`${props.icon || 'mdi mdi-format-list-checks'} default-icon task-icon`} />
-        <p className='ml-2 mb-0 task-title text-truncate'>{props.title}</p>
+        <p className='ml-2 mb-0 task-title text-truncate'>{text}</p>
       </span>}
       {!editMode ? <div className='intereaction ml-auto d-flex justify-content-start align-items-center'>
         <bdi className=''>{props.completed || ''}</bdi>
@@ -113,6 +149,7 @@ const Task = props => {
       </div> : null}
       <DeleteTaskModal
         show={showModal}
+        handleDelete={handleDelete}
         onHide={() => setShowModal(!showModal)}
         title={text}
         loading={loading}
@@ -126,6 +163,8 @@ export const CreateTask = props => {
   const [text, setText] = useState('')
   const [activeClass, setActiveClass] = useState(false)
   const [loading, setLoading] = useState(false)
+  const dispatch = useDispatch()
+  const User = useSelector(state => state.User.data)
   /**
    * here i am using useState to toggle the modal
    */
@@ -162,22 +201,38 @@ export const CreateTask = props => {
   useOutsideAlerter(wrapperRef)
 
   const handleSubmit = () => {
-
+    setLoading(false)
+    dispatch(handleCreateTask({ title: text, _creator: User._id }))
+      .then(result => {
+        if (result.status !== 200) {
+          setLoading(false)
+          swal('', `${result.errMessage || 'Error occurred'}`, '')
+          return
+        }
+        setLoading(false)
+        setEditMode(false)
+        setText('')
+        ResolveAll([dispatch(handleFetchTasks())], result.message)
+      })
   }
   return (
     <TaskWrapper className={`create-task task d-flex justify-content-start align-items-center px-3 mt-2 ${activeClass ? 'active' : ''}`} id='task' ref={wrapperRef}>
       {editMode
         ? <div className='d-flex justify-content-center align-items-center'>
           <i className='mdi mdi-plus task-icon edit-mode' />
-          <Main autoFocus className={`${text.trim().length > 100 ? 'deactivate' : ''}`} height='34px' value={text} placeholder='New List' onKeyDown={e => {
-            if (text.trim().length > 100) return null
-            if (e.keyCode === 13) {
-              handleSubmit()
-            }
-          }} onChange={e => {
-            e.persist()
-            setText(e.target.value)
-          }}
+          <Main autoFocus
+            disabled={loading}
+            className={`${text.trim().length > 100 ? 'deactivate' : ''}`}
+            height='34px'
+            value={text} placeholder='New List' onKeyDown={e => {
+              if (text.trim().length > 100) return null
+              if (e.keyCode === 13) {
+                handleSubmit()
+              }
+            }} onChange={e => {
+              e.persist()
+              setText(e.target.value)
+            }}
           />
         </div>
         : <span className='d-flex justify-content-center align-items-center'>
@@ -246,7 +301,7 @@ export const TodoDetailsHead = props => {
         completed={completed} />
       {editMode
         ? <div className='d-flex justify-content-start align-items-center w-100'>
-        
+
           {/* <i className='mdi mdi-checkbox-blank-circle-outline task-icon edit-mode mr-2' onClick={() => {
             setEditMode(!editMode)
           }} /> */}
@@ -266,7 +321,7 @@ export const TodoDetailsHead = props => {
           {/* <i className='mdi mdi-plus task-icon mr-2' onClick={() => {
             setEditMode(!editMode)
           }} /> */}
-          <p className={`${completed ? 'text-strikethrough ' : ''} ml-2 mb-0 p-2 task-title text-break`} onClick={() => setEditMode(!editMode)} title={ text || 'New Task'}>{ text || 'New Task' }</p>
+          <p className={`${completed ? 'text-strikethrough ' : ''} ml-2 mb-0 p-2 task-title text-break`} onClick={() => setEditMode(!editMode)} title={text || 'New Task'}>{ text || 'New Task' }</p>
         </span>}
       <ImportantCheckMark isImportant={isImportant} setIsImportant={value => setIsImportant(value)} />
     </TodoDetailHeadWrapper>

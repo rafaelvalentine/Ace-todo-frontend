@@ -18,6 +18,9 @@ export const Container = styled.div`
     display:flex;
     justify-content:center;
     align-items:center;
+    &[disabled]{
+      opacity: .5;
+    }
 `
 Container.defaultProps = {
   width: '320px',

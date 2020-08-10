@@ -8,10 +8,18 @@ import axios from 'axios'
  */
 export default (() => {
     const baseApi = () => {
+        let baseURL = 'http://localhost:5050/api/v1'
+        let token = ''
+        if (sessionStorage.getItem('token')) {
+            token = sessionStorage.getItem('token')
+        }
+        if (process.env.NODE_ENV && process.env.NODE_ENV === 'production') {
+            baseURL = ''
+        }
         return axios.create({
-            baseURL: 'http://localhost:5050/api/v1',
+            baseURL,
             headers: {
-                Authorization: `Bearer ${''}`
+                Authorization: `Bearer ${token}`
             }
         })
     }

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import Button from '../button'
 import useWindowDimensions from '../../tools/windowsize'
 import { size } from '../../utils/device'
@@ -6,6 +7,7 @@ import { Tasks, CreateTask } from '../../utils/sidebar'
 import { Wrapper, LeftColumn } from './styles'
 
 const Sidebar = ({ children, ...props }) => {
+  const List = useSelector(state => state.List.data)
   /**
    * here i am using useState to toggle the dropdown
    */
@@ -67,7 +69,7 @@ const Sidebar = ({ children, ...props }) => {
           <i className='mdi mdi-menu' />
         </Button>
         <div className='w-100'>
-          <Tasks tasks={props.tasks} />
+          <Tasks tasks={List.length > 0 ? List : props.tasks} />
           <CreateTask openSidebar={()=> setActiveClass(true)} />
         </div>
 

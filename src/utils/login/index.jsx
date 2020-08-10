@@ -4,7 +4,7 @@ import { Main } from '../../components/input'
 import * as Page from './styles'
 
 // this Component house both light and dark themes for login form
-export default ({ email, onChange, username, password, loading, ...props }) => {
+export default ({ email, onChange, username, password, loading, handleUserLogin, ...props }) => {
   return (
     <Page.Wrapper className='d-flex flex-column justify-content-center align-items-center'>
       <Main
@@ -30,6 +30,8 @@ export default ({ email, onChange, username, password, loading, ...props }) => {
         width='120px'
         height='35px'
         content='Login'
+        disabled={loading}
+        onClick={handleUserLogin}
         loading={loading}
         className='mt-3'
         margin='0' />

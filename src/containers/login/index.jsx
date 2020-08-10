@@ -1,5 +1,6 @@
 import Login from '../../pages/login'
 import { connect } from 'react-redux'
+import { handleUserLogin} from '../../store/actions'
 
 
 /**
@@ -9,8 +10,8 @@ import { connect } from 'react-redux'
 
 // })
 
-// const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = dispatch => ({
+  handleUserLogin: data => dispatch(handleUserLogin(data))
+})
 
-// })
-
-export default connect(null, null)(Login)
+export default connect(null, mapDispatchToProps)(Login)

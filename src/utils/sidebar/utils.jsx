@@ -6,7 +6,7 @@ import { Header, SubHeader } from '../../themes/style/typeface'
 import '../../themes/sass/components/modals.sass'
 import { ExitDeleteWrapper } from './styles'
 
-export const DeleteTaskModal = ({ loading, title, ...props }) => {
+export const DeleteTaskModal = ({ loading, title, handleDelete, ...props }) => {
   return (
     <Modal className='delete-task-modal'{...props}>
       <Card id='delete-task-container'
@@ -42,6 +42,7 @@ export const DeleteTaskModal = ({ loading, title, ...props }) => {
             height='32px'
             content='Delete list'
             color='white'
+            onClick={handleDelete}
             backgroundColor='danger'
             loading={loading}
             size='md' />
