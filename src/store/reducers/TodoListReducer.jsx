@@ -1,6 +1,9 @@
 const initialState = {
   data: [],
-  selected: null
+  selected: {
+    id: null, 
+    title: null
+  }
 }
 
 export default (state = initialState, { type, payload }) => {

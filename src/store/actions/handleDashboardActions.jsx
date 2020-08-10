@@ -108,7 +108,18 @@ export const handleDeleteTask = id => dispatch => {
     .then(res => handleThenSuccess(res, null))
     .catch(handleCatchError)
 }
-
+/**
+ * @name handleCreateTodo
+ * @description  function creates todos
+ * @param {Object} data
+ * @return {Promise<{result: AxiosResponse<Object>}>} user object from backend
+ */
+export const handleCreateTodo = data => dispatch => {
+  return HTTP.baseApi()
+    .post(`/todo`, data)
+    .then(res => handleThenSuccess(res, null))
+    .catch(handleCatchError)
+}
 
 /**
  * @name handleFetchTodos
@@ -133,6 +144,19 @@ export const handlePatchTodo = data => dispatch => {
   const { id, completed, isImportant, text } = data
   return HTTP.baseApi()
     .patch(`/todo/${id}`, { completed, isImportant, text })
+    .then(res => handleThenSuccess(res, null))
+    .catch(handleCatchError)
+}
+
+/**
+ * @name handleDeleteTodo
+ * @description  function deletes a todo
+ * @param {Object} data
+ * @return {Promise<{result: AxiosResponse<Object>}>} user object from backend
+ */
+export const handleDeleteTodo = id => dispatch => {
+  return HTTP.baseApi()
+    .delete(`/todo/${id}`)
     .then(res => handleThenSuccess(res, null))
     .catch(handleCatchError)
 }

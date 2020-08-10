@@ -9,11 +9,13 @@ import {
   handlePatchTask,
   handleDeleteTask,
   handleSetSelectedTask,
-  handleFetchTodos
- } from '../../store/actions'
+  handleFetchTodos,
+  handlePatchTodo,
+  handleSetSelectedTodo
+} from '../../store/actions'
 import { ResolveAll } from '../../tools/Helpers/HTTP'
 import { Completed, CompletedCheckMark, ImportantCheckMark } from '../todos/utils'
-import { DeleteTaskModal } from './utils'
+import { DeleteModal } from './utils'
 import { TaskList, TaskWrapper, TodoDetailHeadWrapper } from './styles'
 import swal from 'sweetalert'
 
@@ -86,7 +88,7 @@ const Task = props => {
     setText(props.title)
   }, [props.title])
   useEffect(() => {
-   if(sessionStorage.getItem('selectedTask') === props._id) setActiveClass(true)
+    if (sessionStorage.getItem('selectedTask') === props._id) setActiveClass(true)
   }, [])
   const handleSubmit = () => {
     setLoading(true)
@@ -118,17 +120,17 @@ const Task = props => {
         ResolveAll([dispatch(handleFetchTasks())], result.message)
       })
   }
-  const handleSelected =()=>{
+  const handleSelected = () => {
     dispatch(handleFetchTodos(props._id))
-    .then(result => {
-      if (result.status !== 200) {
-        swal('', result.errMessage, '')
-        return
-      }
-      sessionStorage.setItem('selectedTask', props._id)
-      dispatch(handleSetSelectedTask(props._id))
-    })
-    
+      .then(result => {
+        if (result.status !== 200) {
+          swal('', result.errMessage, '')
+          return
+        }
+        sessionStorage.setItem('selectedTask', props._id)
+        sessionStorage.setItem('selectedTask-title', props.title)
+        dispatch(handleSetSelectedTask({ id: props._id, title: props.title }))
+      })
   }
   return (
     <TaskWrapper className={`task d-flex justify-content-start align-items-center px-3 cursor-pointer ${props.default ? 'default' : ''} ${activeClass ? 'active' : ''}`} id='task' ref={wrapperRef}>
@@ -167,7 +169,7 @@ const Task = props => {
         }
         {/* <i className='mdi mdi-dots-horizontal' /> */}
       </div> : null}
-      <DeleteTaskModal
+      <DeleteModal
         show={showModal}
         handleDelete={handleDelete}
         onHide={() => setShowModal(!showModal)}
@@ -270,17 +272,33 @@ export const CreateTask = props => {
 }
 
 export const TodoDetailsHead = props => {
+  const dispatch = useDispatch()
   const [completed, setCompleted] = useState(null)
   const [isImportant, setIsImportant] = useState(false)
   const [editMode, setEditMode] = useState(false)
   const [text, setText] = useState('')
+  const [isDisabled, setIsDisabled] = useState(false)
   const handleSubmit = () => {
-
+    setIsDisabled(true)
+    dispatch(handlePatchTodo({ completed, text, isImportant, id: props._id }))
+      .then(result => {
+        if (result.status !== 200) {
+          setIsDisabled(false)
+          swal('', result.errMessage, '')
+          return
+        }
+        dispatch(handleSetSelectedTodo(result.data))
+        dispatch(handleFetchTodos(props.taskId))
+          .then(() => {
+            setEditMode(false)
+          })
+      })
+    // handleFetchTodos
   }
   /**
    * here i am using useState to toggle the modal
    */
-  const [activeClass, setActiveClass] = useState(false)
+  // const [activeClass, setActiveClass] = useState(false)
 
   /**
  * Hook that alerts clicks outside of the passed ref
@@ -314,36 +332,62 @@ export const TodoDetailsHead = props => {
     setIsImportant(props.isImportant)
   }, [props])
   let sample = 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur ullam at consequatur sit dolore fuga iure eligendi ipsam corrupti nihil. Voluptatum fuga porro distinctio facilis nisi provident, possimus modi doloremque.'
+  const handleCompleted = value => {
+    dispatch(handlePatchTodo({ completed: value, isImportant, text: props.text, id: props._id }))
+      .then(result => {
+        if (result.status !== 200) {
+          swal('', `couldn't complete update ${props.text}`, '')
+          return
+        }
+
+        dispatch(handleFetchTodos(props.taskId))
+          .then(() => {
+            setCompleted(value)
+            dispatch(handleSetSelectedTodo(result.data))
+          })
+      })
+  }
+  const handleIsImportant = value => {
+    dispatch(handlePatchTodo({ isImportant: value, completed, text: props.text, id: props._id }))
+      .then(result => {
+        if (result.status !== 200) {
+          swal('', `couldn't complete update ${props.text}`, '')
+          return
+        }
+
+        dispatch(handleFetchTodos(props.taskId))
+          .then(() => {
+            setIsImportant(value)
+            dispatch(handleSetSelectedTodo(result.data))
+          })
+      })
+  }
   return (
     <TodoDetailHeadWrapper className='d-flex justify-content-around align-items-center p-2' ref={wrapperRef}>
       <CompletedCheckMark
-        setCompleted={value => setCompleted(value)}
+        setCompleted={handleCompleted}
         completed={completed} />
       {editMode
         ? <div className='d-flex justify-content-start align-items-center w-100'>
 
-          {/* <i className='mdi mdi-checkbox-blank-circle-outline task-icon edit-mode mr-2' onClick={() => {
-            setEditMode(!editMode)
-          }} /> */}
-          <Main autoFocus className={`${text.trim().length > 100 ? 'deactivate' : ''}`} height='34px' value={text} placeholder='New Task' onKeyDown={e => {
-            if (text.trim().length > 100) return null
-            if (e.keyCode === 13) {
-              handleSubmit()
-            }
-          }} onChange={e => {
-            e.persist()
-            setText(e.target.value)
-          }}
+          <Main autoFocus className={`${text.trim().length > 100 ? 'deactivate' : ''}`} height='34px'
+            disabled={isDisabled}
+            value={text} placeholder='New Task' onKeyDown={e => {
+              if (text.trim().length > 100) return null
+              if (e.keyCode === 13) {
+                handleSubmit()
+              }
+            }} onChange={e => {
+              e.persist()
+              setText(e.target.value)
+            }}
           />
-          {/* text.trim().length > 0 && text.trim().length <= 100 ? <p className='add-task mb-0 ml-auto'>ADD </p> : null */}
+
         </div>
         : <span className='d-flex justify-content-start align-items-center w-100'>
-          {/* <i className='mdi mdi-plus task-icon mr-2' onClick={() => {
-            setEditMode(!editMode)
-          }} /> */}
           <p className={`${completed ? 'text-strikethrough ' : ''} ml-2 mb-0 p-2 task-title text-break`} onClick={() => setEditMode(!editMode)} title={text || 'New Task'}>{ text || 'New Task' }</p>
         </span>}
-      <ImportantCheckMark isImportant={isImportant} setIsImportant={value => setIsImportant(value)} />
+      <ImportantCheckMark isImportant={isImportant} setIsImportant={handleIsImportant} />
     </TodoDetailHeadWrapper>
 
   )

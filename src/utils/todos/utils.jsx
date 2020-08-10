@@ -5,15 +5,35 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip'
 import ScrollArea from 'react-scrollbar'
 import { Main } from '../../components/input'
-import { handleSetSelectedTodo, handlePatchTodo, handleFetchTodos } from '../../store/actions'
+import { handleSetSelectedTodo, handleCreateTodo, handlePatchTodo, handleFetchTodos } from '../../store/actions'
 import { Header } from '../../themes/style/typeface'
 import { TodoHeaderWrapper, TodosListWrapper, TodoWrapper, BackgroundLines, CheckedIcon, ImportantIcon } from './styles'
 
 export const TodoHeader = props => {
+  const dispatch = useDispatch()
   const [editMode, setEditMode] = useState(false)
+  const [isDisabled, setIsDisabled] = useState(false)
   const [text, setText] = useState('')
+  const Title = useSelector(state => state.List.selected.title)
   const handleSubmit = () => {
+    let taskId = sessionStorage.getItem('selectedTask')
 
+    if(!taskId) return null
+    setIsDisabled(true)
+    dispatch(handleCreateTodo({ taskId, text }))
+    .then(result=>{
+      if (result.status !== 200) {
+        swal('', 'unable to create todo', '')
+        setIsDisabled(false)
+        return
+      }
+      dispatch(handleFetchTodos(taskId))
+      .then(()=>{
+        setIsDisabled(false)
+        setText('')
+        setEditMode(false)
+      })
+    })
   }
 
   /**
@@ -46,7 +66,7 @@ export const TodoHeader = props => {
     <TodoHeaderWrapper className='px-3 py-2'>
       <div className='top d-flex justify-content-start align-items-center w-100'>
         <Header className='title' margin='0'>
-          {props.title || 'Task' }
+          {( Title || sessionStorage.getItem('selectedTask-title') ) || 'Task' }
         </Header>
         <i className='mdi mdi-dots-horizontal option ml-3' />
         <i className='mdi mdi-sort sort ml-auto' />
@@ -57,7 +77,7 @@ export const TodoHeader = props => {
             <i className='mdi mdi-checkbox-blank-circle-outline task-icon edit-mode mr-2' onClick={() => {
               setEditMode(!editMode)
             }} />
-            <Main autoFocus className={``} height='34px' value={text} placeholder='New Task' onKeyDown={e => {
+            <Main autoFocus className={``} height='34px' value={text} placeholder='New Task' disabled={isDisabled} onKeyDown={e => {
               if (text.trim().length > 100) return null
               if (e.keyCode === 13) {
                 handleSubmit()
@@ -102,12 +122,16 @@ export const TodoBody = props => {
 export const Todos = props => {
   const todos = props.todos || [{ completed: false, text: 'Start Right Sidebar' }, { completed: true, text: 'Finish Todo Section' }]
   return (
-    <div className='pt-3'>
-      {todos.map(todo => {
-        if (todo.completed) return null
-        return <Todo setActiveClass={value => props.setActiveClass(value)} key={todo._id || Math.random()} {...todo} />
-      })}
-    </div>
+    <>
+      {props.todos.length > 0
+        ? <div className='pt-3'>
+          {todos.map(todo => {
+            if (todo.completed) return null
+            return <Todo setActiveClass={value => props.setActiveClass(value)} key={todo._id || Math.random()} {...todo} />
+          })}
+        </div>
+        : null}
+    </>
   )
 }
 export const CompletedTodos = props => {
@@ -209,7 +233,7 @@ export const Todo = props => {
           })
       })
   }
-  // handlePatchTodo
+  
   return (
     <TodoWrapper
       className={`d-flex justify-content-between align-items-center p-2 ${activeClass ? 'active' : ''}`}
@@ -254,7 +278,7 @@ export const CompletedCheckMark = ({ completed, placement, setCompleted, ...prop
             </Tooltip>
           }
         >
-          <i className='mdi mdi-checkbox-marked-circle checked' onClick={() => {
+          <i className='mdi mdi-checkbox-marked-circle checked cursor-pointer' onClick={() => {
             setCompleted(false)
           }} />
         </OverlayTrigger>
@@ -268,7 +292,7 @@ export const CompletedCheckMark = ({ completed, placement, setCompleted, ...prop
           }
         >
           {show
-            ? <i className='mdi mdi-check-circle-outline unchecked' onClick={() => {
+            ? <i className='mdi mdi-check-circle-outline unchecked cursor-pointer' onClick={() => {
               setCompleted(true)
             }} />
             : <i className='mdi mdi-checkbox-blank-circle-outline unchecked' onClick={() => {
@@ -294,7 +318,7 @@ export const ImportantCheckMark = ({ isImportant, placement, setIsImportant, ...
             </Tooltip>
           }
         >
-          <i className='mdi mdi-star checked' onClick={() => {
+          <i className='mdi mdi-star checked cursor-pointer' onClick={() => {
             setIsImportant(false)
           }} />
         </OverlayTrigger>
@@ -307,7 +331,7 @@ export const ImportantCheckMark = ({ isImportant, placement, setIsImportant, ...
             </Tooltip>
           }
         >
-          <i className='mdi mdi-star-outline unchecked' onClick={() => {
+          <i className='mdi mdi-star-outline unchecked cursor-pointer' onClick={() => {
             setIsImportant(true)
           }} />
         </OverlayTrigger>
