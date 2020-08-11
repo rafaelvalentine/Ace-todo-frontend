@@ -47,47 +47,58 @@ height: 36px;
     #options.options {
     i.options-icon {
       font-size: 18px;
-      font-weight: 400;
+      font-weight:500;
       display: initial !important;
     }
    }
   }
 }
-
-
 i{
   color: ${props => props.theme.primary};
   &.task-icon{
     font-size: 24px;
-    font-weight: 400;
+    font-weight:500;
   }
   &.edit-mode{
     color: ${props => props.theme.defaultIcon};
   }
 }
 .task-title{
-  font-weight: 400;
+  font-weight:500;
   font-style:normal;
   font-size: 14px;
   line-height: 16px;
-  width 100px;
+  width 100%;
+  border: none;
   color: ${props => props.theme.taskText};
+  &::placeholder{
+    color: ${props => props.theme.primary};
+  }
+  &:[disabled]{
+    background-color: ${props => props.theme.transparent};
+  }
 }
 label{
+  // width: 100%;
   margin: 0;
-  input {
-    width: 140px;
+  .input-group{
+    width: 100%;
+    input {
+    width: 79%;
     border: none;
     border-bottom: 1px solid ${props => props.theme.secondary};
-    font-weight: 400;
+    font-weight:500;
     font-style:normal;
     font-size: 14px;
     line-height: 16px;
+    &.text-input{
+
+    }
     &.deactivate{
       border: 1px solid ${props => props.theme.danger} !important;
     }
     &::placeholder{
-      font-weight: 400;
+      font-weight:500;
       font-style:normal;
       font-size: 14px;
       line-height: 16px;
@@ -96,6 +107,7 @@ label{
       outline: none;
       border-bottom: 1px solid ${props => props.theme.info};
     }
+  }
   }
   i{
     cursor: pointer;
@@ -119,13 +131,13 @@ label{
 
 
 &.create-task{
+  background-color: ${props => props.theme.transparent};
   &.active{
     background-color: ${props => props.theme.selectedTask};
   }
   &:hover{
-    .intereaction{
-      background-color: ${props => props.theme.leftColumn} !important;
-    }
+    
+    
   }
   i.task-icon{
     cursor: pointer;
@@ -133,41 +145,41 @@ label{
   .task-title {
     color: ${props => props.theme.primary};
   }
+  .text-field{
+    &:hover{
+      background-color: ${props => props.theme.taskHover};
+    }
+  }
   .intereaction{
     width: 60px;
     background-color: ${props => props.theme.leftColumn} !important;
     i{
       font-size: 24px;
-      font-weight: 400;
+      font-weight:500;
+    }
+    &:hover{
+      .intereaction{
+        background-color: ${props => props.theme.leftColumn} !important;
+      }
     }
   }
   
   label{
     margin: 0;
-    input {
-      padding-left: 5px;
-      width: 130px;
-      border: none;
-      background-color: ${props => props.theme.transparent} !important;
+    .input-group{
+        width: 100%;
+        input {
+        padding-left: 5px;
+        width: 100%;
+        border: none;
+        background-color: ${props => props.theme.transparent} !important;
+      }
     }
   }
 }
 @media only screen and ${device.tablet} {
-.task-title {
-  width 150px;
-}
-label{
-  input{
-    width: 200px;
-  }
- }
- &.create-task{
-  label{
-    margin: 0;
-    input {
-      width: 180px;
-    }
-  }
+.confirm{
+  margin: 0 8px;
 }
 }
 @media only screen and ${device.laptop} {
@@ -179,7 +191,7 @@ export const TodoDetailHeadWrapper = styled.div`
   min-height: 55px;
   background-color: ${props => props.theme.white};
   .task-title {
-    font-weight: 400;
+    font-weight:500;
     font-style:normal;
     font-size: 14px;
     line-height: 16px;
@@ -193,7 +205,7 @@ export const TodoDetailHeadWrapper = styled.div`
       width: 205px;
       border: none;
       border-bottom: 1px solid ${props => props.theme.info};
-      font-weight: 400;
+      font-weight:500;
       font-style:normal;
       font-size: 14px;
       line-height: 16px;
@@ -202,7 +214,7 @@ export const TodoDetailHeadWrapper = styled.div`
         border-bottom: 1px solid ${props => props.theme.danger} !important;
       }
       &::placeholder{
-        font-weight: 400;
+        font-weight:500;
         font-style:normal;
         font-size: 14px;
         line-height: 16px;
@@ -220,7 +232,7 @@ width: 90%;
 height: 40px;
 position: absolute;
 bottom: 10px;
-font-weight: 400;
+font-weight:500;
 font-style:normal;
 font-size: 12px;
 line-height: 15px;

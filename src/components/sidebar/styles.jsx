@@ -69,6 +69,9 @@ z-index: 5;
   .create-task{
       border-top: 1px solid #eaeaea;
       border-bottom: 1px solid #eaeaea;
+      .text-field {
+        justify-content: center !important;
+    }
   }
 }
 .hamburger{

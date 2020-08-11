@@ -101,11 +101,11 @@ export const TodoHeader = props => {
               }}
             >ADD </p> : null }
           </div>
-          : <div className='d-flex justify-content-start align-items-center w-100'>
+          : <div className='d-flex justify-content-start align-items-center w-100' onClick={() => setEditMode(!editMode)}>
             <i className='mdi mdi-plus task-icon mr-2' onClick={() => {
               setEditMode(!editMode)
             }} />
-            <p className=' mb-0 task-title text-truncate ' onClick={() => setEditMode(!editMode)}>{ text || 'Add a Todo'}</p>
+            <input className='mb-0 task-title' onClick={() => setEditMode(!editMode)} value={text} placeholder='Add to Todo' disabled />
           </div>}
       </div>
     </TodoHeaderWrapper>

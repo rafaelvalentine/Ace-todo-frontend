@@ -44,20 +44,27 @@ color: ${props => props.theme.primary} !important;
     }
   .task-icon{
       font-size: 24px;
-      font-weight: 400;
+      font-weight:500;
       &.edit-mode{
         color: ${props => props.theme.secondary};
       }
   } 
   .task-title,
   .add-task {
-    font-weight: 400;
+    font-weight:500;
     font-style:normal;
     font-size: 14px;
     line-height: 16px;
     width 100%;
     &.task-title{
-      width: 80%;
+      color: ${props => props.theme.primary};
+      &::placeholder{
+        color: ${props => props.theme.primary};
+      }
+    }
+    &.task-title[disabled]{
+      background-color: ${props => props.theme.transparent};
+      border: none;
     }
     &.add-task{
       width 30px;
@@ -76,7 +83,7 @@ color: ${props => props.theme.primary} !important;
       input {
       width: 100%;
       border: none;
-      font-weight: 400;
+      font-weight:500;
       font-style:normal;
       font-size: 14px;
       line-height: 16px;
@@ -86,7 +93,7 @@ color: ${props => props.theme.primary} !important;
         border: 1px solid ${props => props.theme.danger} !important;
       }
       &::placeholder{
-        font-weight: 400;
+        font-weight:500;
         font-style:normal;
         font-size: 14px;
         line-height: 16px;
@@ -166,7 +173,7 @@ export const TodoWrapper = styled.div`
     width: 92%;
     .title{
       font-size: 14px;
-      font-weight: 400;
+      font-weight:500;
       color: ${props => props.theme.taskText};
       position: relative;
       flex: 1 1 0px;
@@ -178,7 +185,7 @@ export const TodoWrapper = styled.div`
     }
     .info{
       font-size: 12px;
-      font-weight: 400;
+      font-weight:500;
       color: ${props => props.theme.done};
       position: relative;
       flex: 1 1 0px;

@@ -134,7 +134,7 @@ const Task = props => {
   }
   return (
     <TaskWrapper className={`task d-flex justify-content-start align-items-center px-3 cursor-pointer ${props.default ? 'default' : ''} ${activeClass ? 'active' : ''}`} id='task' ref={wrapperRef}>
-      {editMode ? <Main autoFocus className={`${text.trim().length > 100 ? 'deactivate' : ''}`} height='34px' value={text} disabled={loading} append
+      {editMode ? <Main autoFocus className={`${text.trim().length > 100 ? 'deactivate' : ''} text-input`} height='34px' value={text} disabled={loading} append
         onKeyDown={e => {
           if (text.trim().length > 100) return null
           if (e.keyCode === 13) {
@@ -155,10 +155,10 @@ const Task = props => {
         </div>
       </Main> : <span className='d-flex justify-content-center align-items-center' onClick={handleSelected}>
         <i className={`${props.icon || 'mdi mdi-format-list-checks'} default-icon task-icon`} />
-        <p className='ml-2 mb-0 task-title text-truncate'>{text}</p>
+        <input className='ml-2 mb-0 task-title text-truncate' value={text} disabled />
       </span>}
       {!editMode ? <div className='intereaction ml-auto d-flex justify-content-start align-items-center'>
-        <bdi className=''>{props.completed || '' }</bdi>
+        <bdi className=''>{props.todos.length || '' }</bdi>
 
         {props.default ? null
           : <TaskOptionsDropdown
@@ -240,7 +240,7 @@ export const CreateTask = props => {
   return (
     <TaskWrapper className={`create-task task d-flex justify-content-start align-items-center mt-2 ${activeClass ? 'active' : ''}`} id='task' ref={wrapperRef}>
       {editMode
-        ? <div className='d-flex justify-content-center align-items-center px-3'>
+        ? <div className='text-input d-flex justify-content-center align-items-center pl-3'>
           <i className='mdi mdi-plus task-icon edit-mode' />
           <Main autoFocus
             disabled={loading}
@@ -257,13 +257,13 @@ export const CreateTask = props => {
             }}
           />
         </div>
-        : <span className='d-flex justify-content-center align-items-center px-3'>
+        : <div className='text-field d-flex justify-content-start align-items-center px-3 w-100' onClick={() => setEditMode(!editMode)}>
           <i className='mdi mdi-plus task-icon' onClick={() => {
             props.openSidebar()
             setEditMode(!editMode)
           }} />
-          <p className='ml-2 mb-0 task-title text-truncate' onClick={() => setEditMode(!editMode)}>{ text || 'New List'}</p>
-        </span>}
+          <input className='ml-2 mb-0 task-title text-truncate' onClick={() => setEditMode(!editMode)} value={text} placeholder='New Task' disabled />
+        </div>}
       <div className='intereaction ml-auto d-flex justify-content-center align-items-center cursor-pointer'>
         <i className='mdi mdi-playlist-plus' title='add-group' />
       </div>
