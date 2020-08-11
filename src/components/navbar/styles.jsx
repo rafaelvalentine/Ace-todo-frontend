@@ -8,6 +8,15 @@ display: flex;
 justify-content: flex-start;
 align-items: center;
 padding:0;
+.navbar-toggler{
+  border: none;
+  .navbar-toggler-icon{
+    color: ${props => props.theme.white};
+  }
+  &:hover{
+    background-color: ${props => props.theme.info};
+  }
+}
 `
 export const SideNav = styled.div`
 display: flex;

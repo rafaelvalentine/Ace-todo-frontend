@@ -16,6 +16,9 @@ export default {
     defaultIcon: '#767678',
     taskText: '#34373d',
     done: '#767678',
-    selected: '#f4f6ff'
+    selected: '#f4f6ff',
+    selectedTask: '#ededed',
+    taskHover: '#e6e6e6'
+
 
 }

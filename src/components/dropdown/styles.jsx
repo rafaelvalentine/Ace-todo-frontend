@@ -221,9 +221,9 @@ span{
 
 export const TaskDropdown = styled(NotificationDropdown)`
 background: ${props => props.theme.transparent};
-width: auto;
+width: 24px;
 min-height: 10px;
-height: 10px;
+height: 24px;
 z-index: 0;
 position: none;
 `

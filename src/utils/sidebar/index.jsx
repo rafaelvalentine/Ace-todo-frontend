@@ -117,7 +117,7 @@ const Task = props => {
         }
         setLoading(false)
         setShowModal(false)
-        ResolveAll([dispatch(handleFetchTasks())], result.message)
+        ResolveAll([dispatch(handleFetchTasks())])
       })
   }
   const handleSelected = () => {
@@ -158,7 +158,7 @@ const Task = props => {
         <p className='ml-2 mb-0 task-title text-truncate'>{text}</p>
       </span>}
       {!editMode ? <div className='intereaction ml-auto d-flex justify-content-start align-items-center'>
-        <bdi className=''>{props.completed || ''}</bdi>
+        <bdi className=''>{props.completed || '' }</bdi>
 
         {props.default ? null
           : <TaskOptionsDropdown
@@ -238,9 +238,9 @@ export const CreateTask = props => {
       })
   }
   return (
-    <TaskWrapper className={`create-task task d-flex justify-content-start align-items-center px-3 mt-2 ${activeClass ? 'active' : ''}`} id='task' ref={wrapperRef}>
+    <TaskWrapper className={`create-task task d-flex justify-content-start align-items-center mt-2 ${activeClass ? 'active' : ''}`} id='task' ref={wrapperRef}>
       {editMode
-        ? <div className='d-flex justify-content-center align-items-center'>
+        ? <div className='d-flex justify-content-center align-items-center px-3'>
           <i className='mdi mdi-plus task-icon edit-mode' />
           <Main autoFocus
             disabled={loading}
@@ -257,14 +257,14 @@ export const CreateTask = props => {
             }}
           />
         </div>
-        : <span className='d-flex justify-content-center align-items-center'>
+        : <span className='d-flex justify-content-center align-items-center px-3'>
           <i className='mdi mdi-plus task-icon' onClick={() => {
             props.openSidebar()
             setEditMode(!editMode)
           }} />
           <p className='ml-2 mb-0 task-title text-truncate' onClick={() => setEditMode(!editMode)}>{ text || 'New List'}</p>
         </span>}
-      <div className='intereaction ml-auto mr-4 d-flex justify-content-start align-items-center'>
+      <div className='intereaction ml-auto d-flex justify-content-center align-items-center cursor-pointer'>
         <i className='mdi mdi-playlist-plus' title='add-group' />
       </div>
     </TaskWrapper>

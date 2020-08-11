@@ -18,22 +18,28 @@ export const TodoHeader = props => {
   const handleSubmit = () => {
     let taskId = sessionStorage.getItem('selectedTask')
 
-    if(!taskId) return null
+    if (!taskId) {
+      swal('', 'please create/select a task', '',{
+        button: false
+      })
+      return
+    }
+
     setIsDisabled(true)
     dispatch(handleCreateTodo({ taskId, text }))
-    .then(result=>{
-      if (result.status !== 200) {
-        swal('', 'unable to create todo', '')
-        setIsDisabled(false)
-        return
-      }
-      dispatch(handleFetchTodos(taskId))
-      .then(()=>{
-        setIsDisabled(false)
-        setText('')
-        setEditMode(false)
+      .then(result => {
+        if (result.status !== 200) {
+          swal('', 'unable to create todo', '')
+          setIsDisabled(false)
+          return
+        }
+        dispatch(handleFetchTodos(taskId))
+          .then(() => {
+            setIsDisabled(false)
+            setText('')
+            setEditMode(false)
+          })
       })
-    })
   }
 
   /**
@@ -66,18 +72,19 @@ export const TodoHeader = props => {
     <TodoHeaderWrapper className='px-3 py-2'>
       <div className='top d-flex justify-content-start align-items-center w-100'>
         <Header className='title' margin='0'>
-          {( Title || sessionStorage.getItem('selectedTask-title') ) || 'Task' }
+          {(Title || sessionStorage.getItem('selectedTask-title')) || 'Task' }
         </Header>
         <i className='mdi mdi-dots-horizontal option ml-3' />
         <i className='mdi mdi-sort sort ml-auto' />
       </div>
-      <div ref={wrapperRef} className={`bottom d-flex justify-content-start align-items-center w-100 ${editMode ? 'active' : ''} ${text.trim().length > 100 ? 'deactivate' : ''}`}>
+      <div ref={wrapperRef} className={`w-100 bottom d-flex justify-content-start align-items-center  ${editMode ? 'active' : ''}  ${text.trim().length > 100 && editMode ? 'deactivate' : ''}`}>
         {editMode
           ? <div className='d-flex justify-content-start align-items-center w-100'>
             <i className='mdi mdi-checkbox-blank-circle-outline task-icon edit-mode mr-2' onClick={() => {
               setEditMode(!editMode)
             }} />
-            <Main autoFocus className={``} height='34px' value={text} placeholder='New Task' disabled={isDisabled} onKeyDown={e => {
+            <Main autoFocus height='34px' value={text} placeholder='Add a Todo' disabled={isDisabled} onKeyDown={e => {
+        
               if (text.trim().length > 100) return null
               if (e.keyCode === 13) {
                 handleSubmit()
@@ -87,14 +94,19 @@ export const TodoHeader = props => {
               setText(e.target.value)
             }}
             />
-            { text.trim().length > 0 && text.trim().length <= 100 ? <p className='add-task mb-0 ml-auto'>ADD </p> : null }
+            { text.trim().length > 0 && text.trim().length <= 100 ? <p className='add-task mb-0 ml-auto'
+              onClick={() => {
+                if (text.trim().length > 100) return null
+                handleSubmit()
+              }}
+            >ADD </p> : null }
           </div>
-          : <span className='d-flex justify-content-start align-items-center w-100'>
+          : <div className='d-flex justify-content-start align-items-center w-100'>
             <i className='mdi mdi-plus task-icon mr-2' onClick={() => {
               setEditMode(!editMode)
             }} />
-            <p className='ml-2 mb-0 task-title text-truncate' onClick={() => setEditMode(!editMode)}>{ text || 'New Task'}</p>
-          </span>}
+            <p className=' mb-0 task-title text-truncate ' onClick={() => setEditMode(!editMode)}>{ text || 'Add a Todo'}</p>
+          </div>}
       </div>
     </TodoHeaderWrapper>
   )
@@ -233,7 +245,7 @@ export const Todo = props => {
           })
       })
   }
-  
+
   return (
     <TodoWrapper
       className={`d-flex justify-content-between align-items-center p-2 ${activeClass ? 'active' : ''}`}

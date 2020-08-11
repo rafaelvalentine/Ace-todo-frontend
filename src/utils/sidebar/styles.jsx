@@ -28,6 +28,33 @@ padding:0;
 export const TaskWrapper = styled.li`
 width: 100%;
 height: 36px;
+&.default{
+  i.default-icon{
+    color: ${props => props.theme.defaultIcon};
+  }
+}
+&.active{
+  background-color: ${props => props.theme.selectedTask};
+  color: ${props => props.theme.primary} !important;
+  .task-title{
+    font-weight: 500;
+    color: ${props => props.theme.primary} !important;
+  }
+}
+&:hover{
+  background-color: ${props => props.theme.taskHover};
+  .intereaction {
+    #options.options {
+    i.options-icon {
+      font-size: 18px;
+      font-weight: 400;
+      display: initial !important;
+    }
+   }
+  }
+}
+
+
 i{
   color: ${props => props.theme.primary};
   &.task-icon{
@@ -81,7 +108,7 @@ label{
     }
   }
 }
-div.intereaction {
+.intereaction {
   width: auto;
   #options.options {
     i.options-icon {
@@ -89,37 +116,39 @@ div.intereaction {
     }
   }
 }
-&.default{
-  i.default-icon{
-    color: ${props => props.theme.defaultIcon};
-  }
-}
-&.active{
-  background-color: ${props => props.theme.white};
-}
-&:hover{
-  background: ${props => props.theme.white};
-  div.intereaction {
-    #options.options {
-    i.options-icon {
-      display: initial !important;
-    }
-   }
-  }
-}
+
 
 &.create-task{
+  &.active{
+    background-color: ${props => props.theme.selectedTask};
+  }
+  &:hover{
+    .intereaction{
+      background-color: ${props => props.theme.leftColumn} !important;
+    }
+  }
   i.task-icon{
     cursor: pointer;
   }
   .task-title {
     color: ${props => props.theme.primary};
   }
+  .intereaction{
+    width: 60px;
+    background-color: ${props => props.theme.leftColumn} !important;
+    i{
+      font-size: 24px;
+      font-weight: 400;
+    }
+  }
+  
   label{
     margin: 0;
     input {
+      padding-left: 5px;
       width: 130px;
       border: none;
+      background-color: ${props => props.theme.transparent} !important;
     }
   }
 }

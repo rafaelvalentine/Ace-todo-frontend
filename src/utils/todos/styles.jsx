@@ -16,12 +16,14 @@ margin-left: 50px;
 
 export const TodoHeaderWrapper = styled.div`
 width: 100%;
+max-width: 100%;
 height: 100px;
 color: ${props => props.theme.primary} !important;
 .top{
   height: 49px;
   .title{
     color: ${props => props.theme.primary} !important;
+    text-transform: initial;
   }
   i{
     cursor: pointer;
@@ -32,6 +34,7 @@ color: ${props => props.theme.primary} !important;
 }
 .bottom{
     height: 50px;
+    max-width: 100%;
     border-bottom: .5px solid ${props => props.theme.secondary};
     &.active{
       border-bottom: .5px solid ${props => props.theme.primary};
@@ -53,6 +56,9 @@ color: ${props => props.theme.primary} !important;
     font-size: 14px;
     line-height: 16px;
     width 100%;
+    &.task-title{
+      width: 80%;
+    }
     &.add-task{
       width 30px;
       &:hover{
@@ -63,14 +69,19 @@ color: ${props => props.theme.primary} !important;
   } 
   label{
     margin: 0;
-    input {
-      width: 205px;
+    width: 95%;
+    .input-group{
+      width: 100%;
+      padding-right: 5px;
+      input {
+      width: 100%;
       border: none;
       font-weight: 400;
       font-style:normal;
       font-size: 14px;
       line-height: 16px;
       background-color: ${props => props.theme.transparent};
+      padding: 5px 0;
       &.deactivate{
         border: 1px solid ${props => props.theme.danger} !important;
       }
@@ -84,29 +95,18 @@ color: ${props => props.theme.primary} !important;
         outline: none;
         // border-bottom: 1px solid ${props => props.theme.info};
       }
+      }
     }
   }
 } 
 @media only screen and ${device.mobileM} {
-  .bottom{
-    label{
-      input {
-        width: 250px;
-      }
-    }
-  }
+  
 }
 @media only screen and ${device.mobileL} {
 
 }
 @media only screen and ${device.tablet} {
-  .bottom{
-    label{
-      input {
-        width: 650px;
-      }
-    }
-  }
+
 }
 @media only screen and ${device.laptop} {
 }

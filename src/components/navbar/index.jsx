@@ -14,7 +14,8 @@ export default () => {
 
     <NavWrapper>
       <Navbar className='w-100' variant='dark' expand='lg'>
-        <Navbar.Brand href='/'>Ace Todo App</Navbar.Brand>
+        {User['_id'] && User['token'] ? <Navbar.Brand href='/'>To-do</Navbar.Brand> : <Navbar.Brand href='/'>Ace Todo App</Navbar.Brand>}
+
         <Navbar.Toggle aria-controls='basic-navbar-nav' />
         <Navbar.Collapse id='basic-navbar-nav'>
           <Nav className='ml-auto pr-5'>
@@ -22,7 +23,7 @@ export default () => {
               fontWeight: 'bold',
               color: 'white'
             }}
-            className=' _nav-link mr-3'>
+              className=' _nav-link mr-3'>
               <span className='mdi mdi-home-variant-outline mr-1 ' />
               Home
             </NavLink>
@@ -32,7 +33,7 @@ export default () => {
                 fontWeight: 'bold',
                 color: 'white'
               }}
-              className=' _nav-link mr-3'>
+                className=' _nav-link mr-3'>
                 <span className='mdi mdi-account-plus mr-1' />
               Register
               </NavLink>
@@ -44,7 +45,7 @@ export default () => {
                 fontWeight: 'bold',
                 color: 'white'
               }}
-              className='_nav-link mr-3'>
+                className='_nav-link mr-3'>
                 <span className='mdi mdi-fingerprint mr-1' />
               Login
               </NavLink> }
@@ -54,7 +55,7 @@ export default () => {
                 fontWeight: 'bold',
                 color: 'white'
               }}
-              className=' _nav-link mr-3'>
+                className=' _nav-link mr-3'>
                 <span className='mdi mdi-view-week-outline mr-1' />
               Dashboard
               </NavLink> : null}
@@ -64,11 +65,11 @@ export default () => {
                 fontWeight: 'bold',
                 color: 'white'
               }}
-                onClick={() => {
+              onClick={() => {
                 dispatch(handleUserLogout())
                 sessionStorage.clear()
               }}
-                className=' _nav-link mr-3'>
+              className=' _nav-link mr-3'>
                 <span className='mdi mdi-logout mr-1' />
               Logout
               </NavLink>
@@ -78,7 +79,7 @@ export default () => {
               fontWeight: 'bold',
               color: 'white'
             }}
-            className=' _nav-link mr-3'>
+              className=' _nav-link mr-3'>
               <span className='mdi mdi-telegram mr-1' />
               Other Apps
             </NavLink>

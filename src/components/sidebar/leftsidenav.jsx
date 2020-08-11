@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import Button from '../button'
 import useWindowDimensions from '../../tools/windowsize'
 import { size } from '../../utils/device'
@@ -83,13 +83,13 @@ const Sidebar = ({ children, ...props }) => {
 
 Sidebar.defaultProps = {
   tasks: [
-    {
-      _id: Math.random(),
-      icon: 'mdi mdi-weather-sunny',
-      title: 'My Day',
-      default: true,
-      completed: 0
-    }
+    // {
+    //   _id: Math.random(),
+    //   icon: 'mdi mdi-weather-sunny',
+    //   title: 'My Day',
+    //   default: true,
+    //   completed: 0
+    // }
   ]
 }
 export default Sidebar
